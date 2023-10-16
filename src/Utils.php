@@ -37,8 +37,8 @@ final class Utils
         return max(min($value, $max), $min);
     }
 
-    public static function absFloor(int|float $number): float
+    public static function absFloor(int|float $number): int
     {
-        return $number < 0 ? (ceil($number) ?: 0) : floor($number);
+        return (int)($number < 0 ? ceil($number) : floor($number));
     }
 }

@@ -8,26 +8,37 @@ use DateInterval;
 use Epoch\Epoch;
 use Epoch\Units;
 
+use function is_int;
 use function sprintf;
 
 trait AddSubtractTrait
 {
     public function add(DateInterval|int $amount, string $units = Units::MILLISECOND): Epoch
     {
-        if (!$amount instanceof DateInterval) {
-            $amount = new DateInterval(self::getIntervalPeriod($amount, $units));
+        if (is_int($amount) && $units === Units::MILLISECOND) {
+            $ms = $this->milliseconds();
+            $this->setMilliseconds($ms + $amount);
+        } else {
+            if (!$amount instanceof DateInterval) {
+                $amount = new DateInterval(self::getIntervalPeriod($amount, $units));
+            }
+            $this->date->add($amount);
         }
-        $this->date->add($amount);
 
         return $this;
     }
 
     public function subtract(DateInterval|int $amount, string $units = Units::MILLISECOND): Epoch
     {
-        if (!$amount instanceof DateInterval) {
-            $amount = new DateInterval(self::getIntervalPeriod($amount, $units));
+        if (is_int($amount) && $units === Units::MILLISECOND) {
+            $ms = $this->milliseconds();
+            $this->setMilliseconds($ms - $amount);
+        } else {
+            if (!$amount instanceof DateInterval) {
+                $amount = new DateInterval(self::getIntervalPeriod($amount, $units));
+            }
+            $this->date->sub($amount);
         }
-        $this->date->sub($amount);
 
         return $this;
     }

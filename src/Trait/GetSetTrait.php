@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Epoch\Trait;
 
-use DateTimeZone;
 use Epoch\DateTimeFormats;
 use Epoch\Epoch;
 use Epoch\Utils;
@@ -76,6 +75,11 @@ trait GetSetTrait
         return $this;
     }
 
+    public function daysInMonth(): int
+    {
+        return Utils::daysInMonths($this->year(), $this->month());
+    }
+
     public function weekday(): int
     {
         return (int)$this->date->format(DateTimeFormats::WEEKDAY);
@@ -130,6 +134,14 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::MILLISECONDS);
     }
 
+    public function setMilliseconds(int|string $value): Epoch
+    {
+        $value = Utils::boundValue($value, 0, 999);
+        $this->setMicroseconds($value * MS_PER_SECOND);
+
+        return $this;
+    }
+
     public function microseconds(): int
     {
         return (int)$this->date->format(DateTimeFormats::MICROSECONDS);
@@ -152,8 +164,8 @@ trait GetSetTrait
     }
 
     /**
-     * Unix Timestamp in milliseconds
      * @uses Epoch::timestamp()
+     * @return int Unix Timestamp in milliseconds
      */
     public function value(): int
     {

@@ -10,21 +10,23 @@ use Epoch\Exception\DateCreationException;
 use Epoch\Units;
 use Epoch\Utils;
 
+use function abs;
+use function round;
+
 trait DiffTrait
 {
     public function diff(
-        string|DateTimeInterface|Epoch $input,
+        int|string|DateTimeInterface|Epoch $input,
         string $units = Units::MILLISECOND,
         bool $asFloat = false
     ): int|float {
         try {
-            $compare = self::createFrom($input);
+            $compare = self::createFrom($input, null, $this->timezone());
         } catch (DateCreationException) {
             return 0;
         }
 
         $zoneDelta = ($compare->utcOffset() - $this->utcOffset()) * MS_PER_SECOND;
-        $output = 0;
         switch ($units) {
             case Units::YEAR:
                 $output = self::monthDiff($this, $compare) / 12;
@@ -49,12 +51,13 @@ trait DiffTrait
                 break;
             case Units::WEEK:
                 $output = ($this->value() - $compare->value() - $zoneDelta) / MS_PER_WEEK;
+                $output = $asFloat ? $output : Utils::absFloor($output);
                 break;
             default:
                 $output = $this->value() - $compare->value();
         }
 
-        return $asFloat ? $output : Utils::absFloor($output);
+        return $asFloat ? $output : (int)round($output);
     }
 
     private static function monthDiff(Epoch $a, Epoch $b): float
@@ -63,16 +66,21 @@ trait DiffTrait
             return -(self::monthDiff($b, $a)); // NOSONAR
         }
 
-        $wholeMonthDiff = ($b->year() - $a->year()) * 12 + ($b->month() - $a->month());
-        $anchor = $a->clone()->add($wholeMonthDiff, Units::MONTH)->value();
+        $wholeMonthDiff = ($b->year() - $a->year()) * 12 + (($b->month() - 1) - ($a->month() - 1));
+        $anchor = self::cloneForValue($a, $wholeMonthDiff, Units::MONTH)->value();
         if ($b->value() - $anchor < 0) {
-            $anchor2 = $a->clone()->add($wholeMonthDiff - 1, Units::MONTH)->value();
-            $adjust = ($b->value() - $anchor) / ($anchor / $anchor2);
+            $anchor2 = self::cloneForValue($a, $wholeMonthDiff - 1, Units::MONTH)->value();
+            $adjust = ($b->value() - $anchor) / ($anchor - $anchor2);
         } else {
-            $anchor2 = $a->clone()->add($wholeMonthDiff + 1, Units::MONTH)->value();
+            $anchor2 = self::cloneForValue($a, $wholeMonthDiff + 1, Units::MONTH)->value();
             $adjust = ($b->value() - $anchor) / ($anchor2 - $anchor);
         }
 
         return -($wholeMonthDiff + $adjust) ?: 0;
+    }
+
+    public static function cloneForValue(Epoch $source, int $value, string $units): Epoch
+    {
+        return $value < 0 ? $source->clone()->subtract(abs($value), $units) : $source->clone()->add($value, $units);
     }
 }
