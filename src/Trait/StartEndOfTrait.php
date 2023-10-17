@@ -22,43 +22,43 @@ const MS_PER_WEEK = 7 * MS_PER_DAY;
 /** @internal */
 trait StartEndOfTrait
 {
-    public function startOf(string $unit = Units::MILLISECOND): Epoch
+    public function startOf(string $unit = Units::MILLISECONDS): Epoch
     {
         $time = $this->value();
         switch ($unit) {
-            case Units::YEAR:
+            case Units::YEARS:
                 $time = self::startOfDate($this->year(), 1, 1);
                 break;
-            case Units::QUARTER:
+            case Units::QUARTERS:
                 $time = self::startOfDate(
                     $this->year(),
                     $this->month() - ($this->month() % 3),
                     1
                 );
                 break;
-            case Units::MONTH:
+            case Units::MONTHS:
                 $time = self::startOfDate($this->year(), $this->month(), 1);
                 break;
-            case Units::WEEK:
+            case Units::WEEKS:
                 $time = self::startOfDate(
                     $this->year(),
                     $this->month(),
                     $this->day() - $this->weekday()
                 );
                 break;
-            case Units::DAY:
+            case Units::DAYS:
                 $time = self::startOfDate($this->year(), $this->month(), $this->day());
                 break;
-            case Units::HOUR:
+            case Units::HOURS:
                 $time -= Utils::mod(
                     $time + $this->utcOffset() * MS_PER_MINUTE,
                     MS_PER_HOUR
                 );
                 break;
-            case Units::MINUTE:
+            case Units::MINUTES:
                 $time -= Utils::mod($time, MS_PER_MINUTE);
                 break;
-            case Units::SECOND:
+            case Units::SECONDS:
                 $time -= Utils::mod($time, MS_PER_SECOND);
                 break;
             default:
@@ -75,43 +75,43 @@ trait StartEndOfTrait
         return $this;
     }
 
-    public function endOf(string $unit = Units::MILLISECOND): Epoch
+    public function endOf(string $unit = Units::MILLISECONDS): Epoch
     {
         $time = $this->value();
         switch ($unit) {
-            case Units::YEAR:
+            case Units::YEARS:
                 $time = self::startOfDate($this->year() + 1, 1, 1) - 1;
                 break;
-            case Units::QUARTER:
+            case Units::QUARTERS:
                 $time = self::startOfDate(
                     $this->year(),
                     $this->month() - ($this->month() % 3) + 3,
                     1
                 ) - 1;
                 break;
-            case Units::MONTH:
+            case Units::MONTHS:
                 $time = self::startOfDate($this->year(), $this->month() + 1, 1) - 1;
                 break;
-            case Units::WEEK:
+            case Units::WEEKS:
                 $time = self::startOfDate(
                     $this->year(),
                     $this->month(),
                     $this->day() - $this->weekday() + 7
                 ) - 1;
                 break;
-            case Units::DAY:
+            case Units::DAYS:
                 $time = self::startOfDate($this->year(), $this->month(), $this->day() + 1) - 1;
                 break;
-            case Units::HOUR:
+            case Units::HOURS:
                 $time += MS_PER_HOUR - Utils::mod(
                         $time + $this->utcOffset() * MS_PER_MINUTE,
                         MS_PER_HOUR
                     ) - 1;
                 break;
-            case Units::MINUTE:
+            case Units::MINUTES:
                 $time += MS_PER_MINUTE - Utils::mod($time, MS_PER_MINUTE) - 1;
                 break;
-            case Units::SECOND:
+            case Units::SECONDS:
                 $time -= Utils::mod($time, MS_PER_SECOND) - 1;
                 break;
             default:

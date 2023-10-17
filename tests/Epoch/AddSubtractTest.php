@@ -15,16 +15,32 @@ class AddSubtractTest extends TestCase
         $a = Epoch::create();
         $a->setYear(2011)->setMonth(10)->setDay(12)->setHours(6)->setMinutes(7)->setSeconds(8)->setMilliseconds(500);
 
-        self::assertSame(550, $a->add(50, Units::MILLISECOND)->milliseconds(), 'Adds milliseconds');
-        self::assertSame(9, $a->add(1, Units::SECOND)->seconds(), 'Add seconds');
-        self::assertSame(8, $a->add(1, Units::MINUTE)->minutes(), 'Add minutes');
-        self::assertSame(7, $a->add(1, Units::HOUR)->hours(), 'Add hours');
-        self::assertSame(13, $a->add(1, Units::DAY)->day(), 'Add days');
-        self::assertSame(20, $a->add(1, Units::WEEK)->day(), 'Add weeks');
-        self::assertSame(11, $a->add(1, Units::MONTH)->month(), 'Add months');
-        self::assertSame(2012, $a->add(1, Units::YEAR)->year(), 'Add years');
-        self::assertSame(1, $a->add(1, Units::QUARTER)->quarter(), 'Add quarters');
-        self::assertSame(5, $a->add(1, Units::QUARTER)->month(), 'Add quarters');
+        self::assertSame(550, $a->add(50, Units::MILLISECONDS)->milliseconds(), 'Adds milliseconds');
+        self::assertSame(9, $a->add(1, Units::SECONDS)->seconds(), 'Add seconds');
+        self::assertSame(8, $a->add(1, Units::MINUTES)->minutes(), 'Add minutes');
+        self::assertSame(7, $a->add(1, Units::HOURS)->hours(), 'Add hours');
+        self::assertSame(13, $a->add(1, Units::DAYS)->day(), 'Add days');
+        self::assertSame(20, $a->add(1, Units::WEEKS)->day(), 'Add weeks');
+        self::assertSame(11, $a->add(1, Units::MONTHS)->month(), 'Add months');
+        self::assertSame(2012, $a->add(1, Units::YEARS)->year(), 'Add years');
+        self::assertSame(1, $a->add(1, Units::QUARTERS)->quarter(), 'Add quarters');
+        self::assertSame(5, $a->add(1, Units::QUARTERS)->month(), 'Add quarters');
+    }
+
+    public function testAddDecimal(): void
+    {
+        $a = Epoch::from(2011, 10, 12, 6, 7, 8, 500);
+        $a->add(1.25, Units::SECONDS);
+        self::assertEquals(9, $a->seconds());
+        self::assertEquals(750, $a->milliseconds());
+    }
+
+    public function testAddWithNegativeAmountSubtracts(): void
+    {
+        self::assertSame(
+            5,
+            Epoch::from(2011, 10, 6)->add(-1, Units::DAYS)->day()
+        );
     }
 
     public function testSubtract(): void
@@ -32,16 +48,16 @@ class AddSubtractTest extends TestCase
         $a = Epoch::create();
         $a->setYear(2011)->setMonth(10)->setDay(12)->setHours(6)->setMinutes(7)->setSeconds(8)->setMilliseconds(500);
 
-        self::assertSame(450, $a->subtract(50, Units::MILLISECOND)->milliseconds(), 'Subtracts milliseconds');
-        self::assertSame(7, $a->subtract(1, Units::SECOND)->seconds(), 'Subtract seconds');
-        self::assertSame(6, $a->subtract(1, Units::MINUTE)->minutes(), 'Subtract minutes');
-        self::assertSame(5, $a->subtract(1, Units::HOUR)->hours(), 'Subtract hours');
-        self::assertSame(11, $a->subtract(1, Units::DAY)->day(), 'Subtract days');
-        self::assertSame(4, $a->subtract(1, Units::WEEK)->day(), 'Subtract weeks');
-        self::assertSame(9, $a->subtract(1, Units::MONTH)->month(), 'Subtract months');
-        self::assertSame(2010, $a->subtract(1, Units::YEAR)->year(), 'Subtract years');
-        self::assertSame(2, $a->subtract(1, Units::QUARTER)->quarter(), 'Subtract quarters');
-        self::assertSame(3, $a->subtract(1, Units::QUARTER)->month(), 'Subtract quarters');
+        self::assertSame(450, $a->subtract(50, Units::MILLISECONDS)->milliseconds(), 'Subtracts milliseconds');
+        self::assertSame(7, $a->subtract(1, Units::SECONDS)->seconds(), 'Subtract seconds');
+        self::assertSame(6, $a->subtract(1, Units::MINUTES)->minutes(), 'Subtract minutes');
+        self::assertSame(5, $a->subtract(1, Units::HOURS)->hours(), 'Subtract hours');
+        self::assertSame(11, $a->subtract(1, Units::DAYS)->day(), 'Subtract days');
+        self::assertSame(4, $a->subtract(1, Units::WEEKS)->day(), 'Subtract weeks');
+        self::assertSame(9, $a->subtract(1, Units::MONTHS)->month(), 'Subtract months');
+        self::assertSame(2010, $a->subtract(1, Units::YEARS)->year(), 'Subtract years');
+        self::assertSame(2, $a->subtract(1, Units::QUARTERS)->quarter(), 'Subtract quarters');
+        self::assertSame(3, $a->subtract(1, Units::QUARTERS)->month(), 'Subtract quarters');
     }
 
     public function testAddAcrossDST(): void
@@ -52,10 +68,10 @@ class AddSubtractTest extends TestCase
         $d = Epoch::from(2011, 3, 12, 5, 0, 0);
         $e = Epoch::from(2011, 3, 12, 5, 0, 0);
 
-        $a->add(1, Units::DAY);
-        $b->add(24, Units::HOUR);
-        $c->add(1, Units::MONTH);
-        $e->add(1, Units::QUARTER);
+        $a->add(1, Units::DAYS);
+        $b->add(24, Units::HOURS);
+        $c->add(1, Units::MONTHS);
+        $e->add(1, Units::QUARTERS);
 
         self::assertSame(5, $a->hours(), 'adding days over DST difference should result in the same hour');
         if ($b->isDST() && !$d->isDST()) {

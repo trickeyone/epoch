@@ -17,7 +17,7 @@ trait DiffTrait
 {
     public function diff(
         int|string|DateTimeInterface|Epoch $input,
-        string $units = Units::MILLISECOND,
+        string $units = Units::MILLISECONDS,
         bool $asFloat = false
     ): int|float {
         try {
@@ -28,36 +28,36 @@ trait DiffTrait
 
         $zoneDelta = ($compare->utcOffset() - $this->utcOffset()) * MS_PER_SECOND;
         switch ($units) {
-            case Units::YEAR:
+            case Units::YEARS:
                 $output = self::monthDiff($this, $compare) / 12;
                 break;
-            case Units::MONTH:
+            case Units::MONTHS:
                 $output = self::monthDiff($this, $compare);
+                $output = $asFloat ? $output : (int)round($output);
                 break;
-            case Units::QUARTER:
+            case Units::QUARTERS:
                 $output = self::monthDiff($this, $compare) / 3;
                 break;
-            case Units::SECOND:
+            case Units::SECONDS:
                 $output = ($this->value() - $compare->value()) / MS_PER_SECOND;
                 break;
-            case Units::MINUTE:
+            case Units::MINUTES:
                 $output = ($this->value() - $compare->value()) / MS_PER_MINUTE;
                 break;
-            case Units::HOUR:
+            case Units::HOURS:
                 $output = ($this->value() - $compare->value()) / MS_PER_HOUR;
                 break;
-            case Units::DAY:
+            case Units::DAYS:
                 $output = ($this->value() - $compare->value() - $zoneDelta) / MS_PER_DAY;
                 break;
-            case Units::WEEK:
+            case Units::WEEKS:
                 $output = ($this->value() - $compare->value() - $zoneDelta) / MS_PER_WEEK;
-                $output = $asFloat ? $output : Utils::absFloor($output);
                 break;
             default:
                 $output = $this->value() - $compare->value();
         }
 
-        return $asFloat ? $output : (int)round($output);
+        return $asFloat ? $output : Utils::absFloor($output);
     }
 
     private static function monthDiff(Epoch $a, Epoch $b): float
@@ -67,12 +67,12 @@ trait DiffTrait
         }
 
         $wholeMonthDiff = ($b->year() - $a->year()) * 12 + (($b->month() - 1) - ($a->month() - 1));
-        $anchor = self::cloneForValue($a, $wholeMonthDiff, Units::MONTH)->value();
+        $anchor = self::cloneForValue($a, $wholeMonthDiff, Units::MONTHS)->value();
         if ($b->value() - $anchor < 0) {
-            $anchor2 = self::cloneForValue($a, $wholeMonthDiff - 1, Units::MONTH)->value();
+            $anchor2 = self::cloneForValue($a, $wholeMonthDiff - 1, Units::MONTHS)->value();
             $adjust = ($b->value() - $anchor) / ($anchor - $anchor2);
         } else {
-            $anchor2 = self::cloneForValue($a, $wholeMonthDiff + 1, Units::MONTH)->value();
+            $anchor2 = self::cloneForValue($a, $wholeMonthDiff + 1, Units::MONTHS)->value();
             $adjust = ($b->value() - $anchor) / ($anchor2 - $anchor);
         }
 

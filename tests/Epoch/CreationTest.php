@@ -9,9 +9,11 @@ use Epoch\Epoch;
 use Epoch\Exception\DateCreationException;
 use PHPUnit\Framework\TestCase;
 
+use function chr;
+
 class CreationTest extends TestCase
 {
-    public function testCreateFromValues(): void
+    public function testFrom(): void
     {
         self::assertInstanceOf(DateTime::class, Epoch::from(2010)->toDateTime());
         self::assertInstanceOf(DateTime::class, Epoch::from(2010, 1)->toDateTime());
@@ -42,10 +44,18 @@ class CreationTest extends TestCase
         self::expectException(DateCreationException::class);
         self::expectExceptionMessage('Unable to create from timestamp');
 
-        Epoch::fromTimestamp(-99999999999);
+        Epoch::fromTimestamp('dldskfngsdg9');
     }
 
     public function testInvalidDateStringThrowsException(): void
+    {
+        self::expectException(DateCreationException::class);
+        self::expectExceptionMessage('Unable to parse date');
+
+        Epoch::fromString('sdfsfdsf' . chr(0));
+    }
+
+    public function testInvalidStringThrowsException(): void
     {
         self::expectException(DateCreationException::class);
         self::expectExceptionMessage('Unable to parse date');

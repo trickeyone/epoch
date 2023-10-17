@@ -12,7 +12,7 @@ use Epoch\Units;
 /** @internal */
 trait CompareTrait
 {
-    public function isAfter(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECOND): bool
+    public function isAfter(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
     {
         try {
             $compare = self::createFrom($input);
@@ -20,12 +20,12 @@ trait CompareTrait
             return false;
         }
         
-        return $units === Units::MILLISECOND
+        return $units === Units::MILLISECONDS
             ? $this->value() > $compare->value()
             : $this->clone()->startOf($units)->value() > $compare->value();
     }
 
-    public function isBefore(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECOND): bool
+    public function isBefore(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
     {
         try {
             $compare = self::createFrom($input);
@@ -33,7 +33,7 @@ trait CompareTrait
             return false;
         }
         
-        return $units === Units::MILLISECOND
+        return $units === Units::MILLISECONDS
             ? $this->value() < $compare->value()
             : $this->clone()->endOf($units)->value() < $compare->value();
     }
@@ -41,7 +41,7 @@ trait CompareTrait
     public function isBetween(
         null|string|DateTimeInterface|Epoch $from,
         null|string|DateTimeInterface|Epoch $to,
-        string $units = Units::MILLISECOND
+        string $units = Units::MILLISECONDS
     ): bool {
         try {
             $compareFrom = self::createFrom($from);
@@ -53,7 +53,7 @@ trait CompareTrait
         return !$this->isBefore($compareFrom, $units) && !$this->isAfter($compareTo, $units);
     }
 
-    public function isSame(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECOND): bool
+    public function isSame(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
     {
         try {
             $compare = self::createFrom($input);
@@ -62,7 +62,7 @@ trait CompareTrait
         }
         $timestamp = $compare->value();
 
-        return $units === Units::MILLISECOND
+        return $units === Units::MILLISECONDS
             ? $this->value() === $timestamp
             : (
                 $this->clone()->startOf($units)->value() <= $timestamp &&
@@ -70,12 +70,12 @@ trait CompareTrait
             );
     }
 
-    public function isSameOrAfter(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECOND): bool
+    public function isSameOrAfter(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
     {
         return $this->isSame($input, $units) || $this->isAfter($input, $units);
     }
 
-    public function isSameOrBefore(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECOND): bool
+    public function isSameOrBefore(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
     {
         return $this->isSame($input, $units) || $this->isBefore($input, $units);
     }

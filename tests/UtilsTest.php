@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Epoch\Test;
 
 use Epoch\Utils;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use function sprintf;
 
+#[CoversClass(Utils::class)]
 class UtilsTest extends TestCase
 {
     public function testIsLeapYear(): void

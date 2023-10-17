@@ -10,6 +10,8 @@ use DateTimeZone;
 use Epoch\Exception\DateCreationException;
 use Exception;
 
+use ValueError;
+
 use function date_default_timezone_get;
 use function is_int;
 use function is_string;
@@ -46,11 +48,11 @@ final class Epoch
     }
 
     /**
-     * @param int $timestamp Unix Timestamp in seconds
+     * @param int|string $timestamp Unix Timestamp in seconds
      * @param DateTimeZone|null $timeZone Defaults to PHP Default Timezone
      * @throws DateCreationException
      */
-    public static function fromTimestamp(int $timestamp, DateTimeZone $timeZone = null): Epoch
+    public static function fromTimestamp(int|string $timestamp, DateTimeZone $timeZone = null): Epoch
     {
         try {
             return self::fromDateTimeInterface(
@@ -102,20 +104,23 @@ final class Epoch
     }
 
     /**
-     * @param string $date Date string
+     * @param string $dateString Date string
      * @param string $format Date-time format
      * @param DateTimeZone|null $timeZone Defaults to PHP Default Timezone
      * @return Epoch
      * @throws DateCreationException
      */
     public static function fromString(
-        string $date,
+        string $dateString,
         string $format = DateTimeInterface::ATOM,
         ?DateTimeZone $timeZone = null
     ): Epoch {
         try {
-            $date = DateTime::createFromFormat($format, $date, $timeZone ?? self::getDefaultTimezone());
-        } catch (Exception) {
+            $date = DateTime::createFromFormat($format, $dateString, $timeZone ?? self::getDefaultTimezone());
+        } catch (Exception | ValueError) {
+            throw new DateCreationException('Unable to parse date', DateTime::getLastErrors() ?: []);
+        }
+        if ($date === false) {
             throw new DateCreationException('Unable to parse date', DateTime::getLastErrors());
         }
 
@@ -154,21 +159,19 @@ final class Epoch
     }
 
     /**
-     * @param string|DateTimeInterface|Epoch|null $date
+     * @param null|string|int|DateTimeInterface|Epoch $date
      * @param string|null $format
      * @param DateTimeZone|null $timeZone
      * @return Epoch
      * @throws DateCreationException
      */
-    private static function createFrom(
+    private static function createFrom( // NOSONAR
         null|string|int|DateTimeInterface|Epoch $date,
         ?string $format = null,
         ?DateTimeZone $timeZone = null
     ): Epoch {
-        if (null === $date) {
-            $date = self::create();
-        } elseif (is_string($date)) {
-            $date = self::fromString($date, $format, $timeZone);
+        if (is_string($date)) {
+            $date = self::fromString($date, $format ?: DateTimeInterface::ATOM, $timeZone);
         } elseif (is_int($date)) {
             $date = self::fromTimestamp($date, $timeZone);
         } elseif ($date instanceof DateTimeInterface) {

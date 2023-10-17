@@ -6,6 +6,7 @@ namespace Epoch\Trait;
 
 use Epoch\DateTimeFormats;
 use Epoch\Epoch;
+use Epoch\Units;
 use Epoch\Utils;
 
 use function ceil;
@@ -85,9 +86,29 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::WEEKDAY);
     }
 
+    /**
+     * @param int $value Day of Week (0-6)
+     * @return Epoch
+     */
+    public function setWeekday(int $value): Epoch
+    {
+        $value = Utils::boundValue($value, 0, 6);
+        $this->add($value - $this->weekday(), Units::DAYS);
+
+        return $this;
+    }
+
     public function isoWeekday(): int
     {
         return (int)$this->date->format(DateTimeFormats::ISO_WEEKDAY);
+    }
+
+    public function setIsoWeekday(int $value): Epoch
+    {
+        $value = Utils::boundValue($value, 1, 7);
+        $this->setWeekday($this->weekday() % 7 ? $value : $value - 7);
+
+        return $this;
     }
 
     public function hours(): int

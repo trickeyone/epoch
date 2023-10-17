@@ -6,13 +6,13 @@ namespace Epoch;
 
 interface Units
 {
-    public const YEAR = 'year';
-    public const MONTH = 'month';
-    public const DAY = 'day';
-    public const HOUR = 'hour';
-    public const MINUTE = 'minute';
-    public const SECOND = 'second';
-    public const MILLISECOND = 'millisecond';
-    public const WEEK = 'week';
-    public const QUARTER = 'quarter';
+    public const YEARS        = 'years';
+    public const MONTHS       = 'months';
+    public const DAYS         = 'days';
+    public const HOURS        = 'hours';
+    public const MINUTES      = 'minutes';
+    public const SECONDS      = 'seconds';
+    public const MILLISECONDS = 'milliseconds';
+    public const WEEKS        = 'weeks';
+    public const QUARTERS     = 'quarters';
 }
