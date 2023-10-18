@@ -12,12 +12,10 @@ use Epoch\Utils;
 use function round;
 use function sprintf;
 
-const MS_PER_SECOND = 1000;
-const MU_PER_SECOND = MS_PER_SECOND * MS_PER_SECOND;
-const MS_PER_MINUTE = 60 * MS_PER_SECOND;
-const MS_PER_HOUR = 60 * MS_PER_MINUTE;
-const MS_PER_DAY = 24 * MS_PER_HOUR;
-const MS_PER_WEEK = 7 * MS_PER_DAY;
+use const Epoch\MS_PER_HOUR;
+use const Epoch\MS_PER_MINUTE;
+use const Epoch\MS_PER_SECOND;
+use const Epoch\MU_PER_SECOND;
 
 /** @internal */
 trait StartEndOfTrait

@@ -12,6 +12,8 @@ use Epoch\Utils;
 use function abs;
 use function ceil;
 
+use const Epoch\MS_PER_SECOND;
+
 /** @internal */
 trait GetSetTrait
 {

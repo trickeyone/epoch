@@ -13,6 +13,12 @@ use Epoch\Utils;
 use function abs;
 use function round;
 
+use const Epoch\MS_PER_DAY;
+use const Epoch\MS_PER_HOUR;
+use const Epoch\MS_PER_MINUTE;
+use const Epoch\MS_PER_SECOND;
+use const Epoch\MS_PER_WEEK;
+
 trait DiffTrait
 {
     public function diff(

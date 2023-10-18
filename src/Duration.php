@@ -8,11 +8,6 @@ use DateInterval;
 
 use function floor;
 
-use const Epoch\Trait\MS_PER_DAY;
-use const Epoch\Trait\MS_PER_HOUR;
-use const Epoch\Trait\MS_PER_MINUTE;
-use const Epoch\Trait\MS_PER_SECOND;
-
 /** @internal */
 final class Duration
 {
