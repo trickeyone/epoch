@@ -16,5 +16,6 @@ class DurationTest extends TestCase
         $duration = new Duration($dateInterval);
 
         self::assertEquals($dateInterval, $duration->toDateInterval());
+        self::assertNotSame($dateInterval, $duration->toDateInterval());
     }
 }

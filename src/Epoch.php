@@ -37,9 +37,11 @@ final class Epoch
     /**
      * @param DateTimeZone|null $timeZone Defaults to PHP Default Timezone
      */
-    public static function create(DateTimeZone $timeZone = null): Epoch
+    public static function create(Epoch $source = null, DateTimeZone $timeZone = null): Epoch
     {
-        return new self((new DateTime())->setTimezone($timeZone ?? self::getDefaultTimezone()));
+        $date = $source ? $source->toDateTime() : new DateTime();
+
+        return new self(($date)->setTimezone($timeZone ?? self::getDefaultTimezone()));
     }
 
     public static function fromDateTimeInterface(DateTimeInterface $date): Epoch
@@ -105,7 +107,7 @@ final class Epoch
 
     /**
      * @param string $dateString Date string
-     * @param string $format Date-time format
+     * @param string $format Date-string format
      * @param DateTimeZone|null $timeZone Defaults to PHP Default Timezone
      * @return Epoch
      * @throws DateCreationException

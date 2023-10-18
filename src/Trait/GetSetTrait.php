@@ -9,6 +9,7 @@ use Epoch\Epoch;
 use Epoch\Units;
 use Epoch\Utils;
 
+use function abs;
 use function ceil;
 
 /** @internal */
@@ -16,7 +17,17 @@ trait GetSetTrait
 {
     public function weekYear(): int
     {
-        return (int)$this->date->format(DateTimeFormats::WEEK_YEAR);
+        return (int)$this->date->format(DateTimeFormats::WEEK_NUMBER_YEAR);
+    }
+
+    public function dayOfYear(): int
+    {
+        return (int)$this->date->format(DateTimeFormats::DAY_NUMBER_YEAR) + 1;
+    }
+
+    public function isoWeekYear(): int
+    {
+        return (int)$this->date->format(DateTimeFormats::ISO_WEEK_NUMBER);
     }
 
     public function year(): int
@@ -87,12 +98,12 @@ trait GetSetTrait
     }
 
     /**
-     * @param int $value Day of Week (0-6)
+     * @param int $value Day of Week (0-6), negative values supported
      * @return Epoch
      */
     public function setWeekday(int $value): Epoch
     {
-        $value = Utils::boundValue($value, 0, 6);
+        $value = abs($value) * ($value / abs($value ?: 1));
         $this->add($value - $this->weekday(), Units::DAYS);
 
         return $this;
@@ -103,9 +114,13 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::ISO_WEEKDAY);
     }
 
+    /**
+     * @param int $value ISO Day of Week (1-7), negative values supported
+     * @return Epoch
+     */
     public function setIsoWeekday(int $value): Epoch
     {
-        $value = Utils::boundValue($value, 1, 7);
+        $value = abs($value) * ($value / abs($value ?: 1));
         $this->setWeekday($this->weekday() % 7 ? $value : $value - 7);
 
         return $this;
