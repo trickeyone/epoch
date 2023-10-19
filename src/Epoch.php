@@ -10,6 +10,7 @@ use DateTimeZone;
 use Epoch\Exception\DateCreationException;
 use Exception;
 
+use Stringable;
 use ValueError;
 
 use function date_default_timezone_get;
@@ -24,7 +25,7 @@ const MS_PER_HOUR = 60 * MS_PER_MINUTE;
 const MS_PER_DAY = 24 * MS_PER_HOUR;
 const MS_PER_WEEK = 7 * MS_PER_DAY;
 
-final class Epoch
+final class Epoch implements Stringable
 {
     use Trait\GetSetTrait;
     use Trait\OffsetTrait;

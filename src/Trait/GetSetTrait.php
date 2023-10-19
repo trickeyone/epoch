@@ -17,16 +17,19 @@ use const Epoch\MS_PER_SECOND;
 /** @internal */
 trait GetSetTrait
 {
-    public function weekYear(): int
+    /** @return int Year of the Week */
+    public function weekOfYear(): int
     {
         return (int)$this->date->format(DateTimeFormats::WEEK_NUMBER_YEAR);
     }
 
+    /** @return int The day of the year (starting from 1) */
     public function dayOfYear(): int
     {
         return (int)$this->date->format(DateTimeFormats::DAY_NUMBER_YEAR) + 1;
     }
 
+    /** @return int ISO 8601 week-numbering year */
     public function isoWeekYear(): int
     {
         return (int)$this->date->format(DateTimeFormats::ISO_WEEK_NUMBER);
@@ -42,7 +45,7 @@ trait GetSetTrait
         $day = $this->day();
         $value = (int)$value;
         if (
-            Utils::isLeapYear($value) &&
+            $this->isLeapYear() &&
             $this->month() === 2 &&
             $this->day() === 29
         ) {
@@ -63,6 +66,10 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::MONTH);
     }
 
+    /**
+     * @param int|string $value Sets the Month (1-12)
+     * @return Epoch
+     */
     public function setMonth(int|string $value): Epoch
     {
         $value = Utils::boundValue($value, 1, 12);
@@ -74,6 +81,19 @@ trait GetSetTrait
     public function quarter(): int
     {
         return (int)ceil($this->month() / 3);
+    }
+
+    /**
+     * @param int $value Sets the Quarter (1-4)
+     * @return Epoch
+     */
+    public function setQuarter(int $value): Epoch
+    {
+        $value = Utils::boundValue($value, 1, 4);
+        $month = (($value - 1) * 3 + ($this->month() % 3));
+        $this->setMonth($month);
+
+        return $this;
     }
 
     public function day(): int
@@ -94,6 +114,7 @@ trait GetSetTrait
         return Utils::daysInMonths($this->year(), $this->month());
     }
 
+    /** @return int Day of Week (0-6) */
     public function weekday(): int
     {
         return (int)$this->date->format(DateTimeFormats::WEEKDAY);
@@ -111,6 +132,7 @@ trait GetSetTrait
         return $this;
     }
 
+    /** @return int Day of Week (1-7) */
     public function isoWeekday(): int
     {
         return (int)$this->date->format(DateTimeFormats::ISO_WEEKDAY);

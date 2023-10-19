@@ -30,7 +30,7 @@ trait StartEndOfTrait
             case Units::QUARTERS:
                 $time = self::startOfDate(
                     $this->year(),
-                    $this->month() - ($this->month() % 3),
+                    ($this->month() - ($this->month() % 3)) + 1,
                     1
                 );
                 break;
@@ -38,11 +38,7 @@ trait StartEndOfTrait
                 $time = self::startOfDate($this->year(), $this->month(), 1);
                 break;
             case Units::WEEKS:
-                $time = self::startOfDate(
-                    $this->year(),
-                    $this->month(),
-                    $this->day() - $this->weekday()
-                );
+                $time = self::startOfDate($this->year(), $this->month(), $this->day() - $this->weekday());
                 break;
             case Units::DAYS:
                 $time = self::startOfDate($this->year(), $this->month(), $this->day());
@@ -83,7 +79,7 @@ trait StartEndOfTrait
             case Units::QUARTERS:
                 $time = self::startOfDate(
                     $this->year(),
-                    $this->month() - ($this->month() % 3) + 3,
+                    (($this->month() - 1) - (($this->month() - 1) % 3)) + 4,
                     1
                 ) - 1;
                 break;
@@ -128,6 +124,24 @@ trait StartEndOfTrait
 
     private function startOfDate(int $year, int $month, int $day): int
     {
+        if ($day <= 0) {
+            $month -= 1;
+        } elseif ($day > Utils::daysInMonths($year, $month)) {
+            $month += 1;
+        }
+        if ($month <= 0) {
+            $year -= 1;
+            $month = 12;
+        } elseif ($month > 12) {
+            $year += 1;
+            $month = 1;
+        }
+        if ($day <= 0) {
+            $day = Utils::daysInMonths($year, $month) + $day;
+        } elseif ($day > Utils::daysInMonths($year, $month)) {
+            $day += -(Utils::daysInMonths($year, $month));
+        }
+
         return MS_PER_SECOND *
             (new DateTime(sprintf('%s-%02d-%02dT00:00:00', $year, $month, $day), $this->timezone()))->getTimestamp();
     }
