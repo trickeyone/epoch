@@ -24,7 +24,7 @@ final class Utils
 
         return $modMonth === 2
             ? (self::isLeapYear($year) ? 29 : 28)
-            : 30 + (($month + ($month / 8)) % 2);
+            : (30 + (($month + (int)($month / 8)) % 2));
     }
 
     public static function mod(int $n, int $x): int
