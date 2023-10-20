@@ -490,7 +490,7 @@ class DiffTest extends TestCase
         );
     }
 
-    protected static function assertEpochEquals(float|int $expected, float|int $actual, string $message = null): void
+    protected static function assertEpochEquals(float $expected, float $actual, string $message = null): void
     {
         self::assertLessThan(
             0.00000001,

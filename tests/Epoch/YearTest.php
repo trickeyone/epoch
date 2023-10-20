@@ -45,6 +45,7 @@ class YearTest extends TestCase
     }
 
     #[DataProvider('leapYearCases')]
+    /** @dataProvider leapYearCases */
     public function testIsLeapYear(int $year, bool $expected, string $message): void
     {
         self::assertSame($expected, Epoch::from($year)->isLeapYear(), $message);

@@ -35,6 +35,7 @@ class UtilsTest extends TestCase
     }
 
     #[DataProvider('daysInMonthProvider')]
+    /** @dataProvider daysInMonthProvider */
     public function testDaysInMonths(int $expectedDays, int $year, int $month): void
     {
         self::assertSame(
