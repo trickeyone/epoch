@@ -106,7 +106,7 @@ trait StartEndOfTrait
                 $time += MS_PER_MINUTE - Utils::mod($time, MS_PER_MINUTE) - 1;
                 break;
             case Units::SECONDS:
-                $time -= Utils::mod($time, MS_PER_SECOND) - 1;
+                $time += MS_PER_SECOND - Utils::mod($time, MS_PER_SECOND) - 1;
                 break;
             default:
         }

@@ -9,7 +9,6 @@ use DateTimeInterface;
 use DateTimeZone;
 use Epoch\Exception\DateCreationException;
 use Exception;
-
 use Stringable;
 use ValueError;
 
@@ -24,6 +23,13 @@ const MS_PER_MINUTE = 60 * MS_PER_SECOND;
 const MS_PER_HOUR = 60 * MS_PER_MINUTE;
 const MS_PER_DAY = 24 * MS_PER_HOUR;
 const MS_PER_WEEK = 7 * MS_PER_DAY;
+
+define(__NAMESPACE__ . '\\MS_PER_SECOND', MS_PER_SECOND);
+define(__NAMESPACE__ . '\\MU_PER_SECOND', MU_PER_SECOND);
+define(__NAMESPACE__ . '\\MS_PER_MINUTE', MS_PER_MINUTE);
+define(__NAMESPACE__ . '\\MS_PER_HOUR', MS_PER_HOUR);
+define(__NAMESPACE__ . '\\MS_PER_DAY', MS_PER_DAY);
+define(__NAMESPACE__ . '\\MS_PER_WEEK', MS_PER_WEEK);
 
 final class Epoch implements Stringable
 {

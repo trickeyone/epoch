@@ -50,7 +50,7 @@ trait CompareTrait
             return false;
         }
 
-        return !$this->isBefore($compareFrom, $units) && !$this->isAfter($compareTo, $units);
+        return $this->isAfter($compareFrom, $units) && $this->isBefore($compareTo, $units);
     }
 
     public function isSame(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool

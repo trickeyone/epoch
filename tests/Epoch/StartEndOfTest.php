@@ -64,7 +64,7 @@ class StartEndOfTest extends TestCase
     {
         $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->startOf(Units::MONTHS);
         self::assertEquals(2011, $e->year(), 'keep the year');
-        self::assertEquals(2, $e->month(), 'keep month');
+        self::assertEquals(2, $e->month(), 'keep the month');
         self::assertEquals(1, $e->day(), 'strip out the day');
         self::assertEquals(0, $e->hours(), 'strip out the hours');
         self::assertEquals(0, $e->minutes(), 'strip out the minutes');
@@ -73,7 +73,7 @@ class StartEndOfTest extends TestCase
 
         $e = Epoch::from(2011, 1, 2, 3, 4, 5, 6)->startOf(Units::MONTHS);
         self::assertEquals(2011, $e->year(), 'keep the year');
-        self::assertEquals(1, $e->month(), 'keep month');
+        self::assertEquals(1, $e->month(), 'keep the month');
         self::assertEquals(1, $e->day(), 'strip out the day');
         self::assertEquals(0, $e->hours(), 'strip out the hours');
         self::assertEquals(0, $e->minutes(), 'strip out the minutes');
@@ -85,7 +85,7 @@ class StartEndOfTest extends TestCase
     {
         $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->endOf(Units::MONTHS);
         self::assertEquals(2011, $e->year(), 'keep the year');
-        self::assertEquals(2, $e->month(), 'keep month');
+        self::assertEquals(2, $e->month(), 'keep the month');
         self::assertEquals(28, $e->day(), 'set the day');
         self::assertEquals(23, $e->hours(), 'set the hours');
         self::assertEquals(59, $e->minutes(), 'set the minutes');
@@ -94,13 +94,14 @@ class StartEndOfTest extends TestCase
 
         $e = Epoch::from(2011, 12, 2, 3, 4, 5, 6)->endOf(Units::MONTHS);
         self::assertEquals(2011, $e->year(), 'keep the year');
-        self::assertEquals(12, $e->month(), 'keep month');
+        self::assertEquals(12, $e->month(), 'keep the month');
         self::assertEquals(31, $e->day(), 'set the day');
         self::assertEquals(23, $e->hours(), 'set the hours');
         self::assertEquals(59, $e->minutes(), 'set the minutes');
         self::assertEquals(59, $e->seconds(), 'set the seconds');
         self::assertEquals(999, $e->milliseconds(), 'set the milliseconds');
     }
+
     public function testStartOfWeek(): void
     {
         $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->startOf(Units::WEEKS);
@@ -127,7 +128,7 @@ class StartEndOfTest extends TestCase
     {
         $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->endOf(Units::WEEKS);
         self::assertEquals(2011, $e->year(), 'keep the year');
-        self::assertEquals(2, $e->month(), 'keep month');
+        self::assertEquals(2, $e->month(), 'keep the month');
         self::assertEquals(5, $e->day(), 'set the end of week');
         self::assertEquals(23, $e->hours(), 'set the hours');
         self::assertEquals(59, $e->minutes(), 'set the minutes');
@@ -136,11 +137,107 @@ class StartEndOfTest extends TestCase
 
         $e = Epoch::from(2010, 12, 26, 3, 4, 5, 6)->endOf(Units::WEEKS);
         self::assertEquals(2011, $e->year(), 'move year forward to 2011');
-        self::assertEquals(1, $e->month(), 'keep month');
+        self::assertEquals(1, $e->month(), 'keep the month');
         self::assertEquals(1, $e->day(), 'set the end of week');
         self::assertEquals(23, $e->hours(), 'set the hours');
         self::assertEquals(59, $e->minutes(), 'set the minutes');
         self::assertEquals(59, $e->seconds(), 'set the seconds');
+        self::assertEquals(999, $e->milliseconds(), 'set the milliseconds');
+    }
+
+    public function testStartOfDay(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->startOf(Units::DAYS);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(0, $e->hours(), 'strip out the hours');
+        self::assertEquals(0, $e->minutes(), 'strip out the minutes');
+        self::assertEquals(0, $e->seconds(), 'strip out the seconds');
+        self::assertEquals(0, $e->milliseconds(), 'strip out the milliseconds');
+    }
+
+    public function testEndOfDay(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->endOf(Units::DAYS);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(23, $e->hours(), 'set the hours');
+        self::assertEquals(59, $e->minutes(), 'set the minutes');
+        self::assertEquals(59, $e->seconds(), 'set the seconds');
+        self::assertEquals(999, $e->milliseconds(), 'set the milliseconds');
+    }
+
+    public function testStartOfHour(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->startOf(Units::HOURS);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(3, $e->hours(), 'keep the hours');
+        self::assertEquals(0, $e->minutes(), 'strip out the minutes');
+        self::assertEquals(0, $e->seconds(), 'strip out the seconds');
+        self::assertEquals(0, $e->milliseconds(), 'strip out the milliseconds');
+    }
+
+    public function testEndOfHour(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->endOf(Units::HOURS);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(3, $e->hours(), 'keep the hours');
+        self::assertEquals(59, $e->minutes(), 'set the minutes');
+        self::assertEquals(59, $e->seconds(), 'set the seconds');
+        self::assertEquals(999, $e->milliseconds(), 'set the milliseconds');
+    }
+
+    public function testStartOfMinute(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->startOf(Units::MINUTES);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(3, $e->hours(), 'keep the hours');
+        self::assertEquals(4, $e->minutes(), 'keep the minutes');
+        self::assertEquals(0, $e->seconds(), 'strip out the seconds');
+        self::assertEquals(0, $e->milliseconds(), 'strip out the milliseconds');
+    }
+
+    public function testEndOfMinute(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->endOf(Units::MINUTES);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(3, $e->hours(), 'keep the hours');
+        self::assertEquals(4, $e->minutes(), 'keep the minutes');
+        self::assertEquals(59, $e->seconds(), 'set the seconds');
+        self::assertEquals(999, $e->milliseconds(), 'set the milliseconds');
+    }
+
+    public function testStartOfSecond(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->startOf(Units::SECONDS);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(3, $e->hours(), 'keep the hours');
+        self::assertEquals(4, $e->minutes(), 'keep the minutes');
+        self::assertEquals(5, $e->seconds(), 'keep the seconds');
+        self::assertEquals(0, $e->milliseconds(), 'strip out the milliseconds');
+    }
+
+    public function testEndOfSecond(): void
+    {
+        $e = Epoch::from(2011, 2, 2, 3, 4, 5, 6)->endOf(Units::SECONDS);
+        self::assertEquals(2011, $e->year(), 'keep the year');
+        self::assertEquals(2, $e->month(), 'keep the month');
+        self::assertEquals(2, $e->day(), 'keep the day');
+        self::assertEquals(3, $e->hours(), 'keep the hours');
+        self::assertEquals(4, $e->minutes(), 'keep the minutes');
+        self::assertEquals(5, $e->seconds(), 'keep the seconds');
         self::assertEquals(999, $e->milliseconds(), 'set the milliseconds');
     }
 }

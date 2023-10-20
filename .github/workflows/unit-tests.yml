@@ -20,12 +20,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - php: '7.4'
-            phpunit: '9.6'
+#          - php: '7.4'
+#            phpunit: '9.6'
+#            phpunit_config: 'phpunit-9.xml'
           - php: '8.0'
             phpunit: '9.6'
+            phpunit_config: 'phpunit-9.xml'
           - php: '8.1'
             phpunit: 'latest'
+            phpunit_config: 'phpunit.xml'
       fail-fast: false
 
     steps:
@@ -47,14 +50,44 @@ jobs:
           php_version: "${{ matrix.php }}"
           php_extensions: "${{ env.extensions }}"
 
+      - name: CodeClimate Before Build
+        uses: xylabs/action-code-climate-test-reporter@v1.0.0
+        with:
+          subcommand: "before-build"
+
       - name: Run Tests
         uses: php-actions/phpunit@v3
         env:
           XDEBUG_MODE: coverage
         with:
-          args: --coverage-text
           memory_limit: 256M
-          configuration: phpunit.xml
+          configuration: "${{ matrix.phpunit_config }}"
           version: "${{ matrix.phpunit }}"
+          coverage_clover: "coverage/clover.xml"
+          coverage_text: true
           php_version: "${{ matrix.php }}"
           php_extensions: "${{ env.extensions }}"
+
+      - name: CodeClimate After Build
+        if: ${{ github.event_name == 'push' }}
+        uses: xylabs/action-code-climate-test-reporter@v1.0.0
+        with:
+          subcommand: "after-build -t clover"
+
+      - name: Make code coverage badge
+        if: ${{ github.event_name == 'push' }}
+        uses: timkrase/phpunit-coverage-badge@v1.2.1
+        with:
+          report: coverage/clover.xml
+          coverage_badge_path: output/coverage.svg
+          push_badge: false
+
+      - name: Git push to image-data branch
+        if: ${{ github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./output
+          publish_branch: gh-images
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
