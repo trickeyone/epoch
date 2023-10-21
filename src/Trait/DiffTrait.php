@@ -13,12 +13,6 @@ use Epoch\Utils;
 use function abs;
 use function round;
 
-use const Epoch\MS_PER_DAY;
-use const Epoch\MS_PER_HOUR;
-use const Epoch\MS_PER_MINUTE;
-use const Epoch\MS_PER_SECOND;
-use const Epoch\MS_PER_WEEK;
-
 trait DiffTrait
 {
     public function diff(
@@ -32,7 +26,7 @@ trait DiffTrait
             return 0;
         }
 
-        $zoneDelta = ($compare->utcOffset() - $this->utcOffset()) * MS_PER_SECOND;
+        $zoneDelta = ($compare->utcOffset() - $this->utcOffset()) * Utils::MS_PER_SECOND;
         switch ($units) {
             case Units::YEARS:
                 $output = self::monthDiff($this, $compare) / 12;
@@ -45,19 +39,19 @@ trait DiffTrait
                 $output = self::monthDiff($this, $compare) / 3;
                 break;
             case Units::SECONDS:
-                $output = ($this->value() - $compare->value()) / MS_PER_SECOND;
+                $output = ($this->value() - $compare->value()) / Utils::MS_PER_SECOND;
                 break;
             case Units::MINUTES:
-                $output = ($this->value() - $compare->value()) / MS_PER_MINUTE;
+                $output = ($this->value() - $compare->value()) / Utils::MS_PER_MINUTE;
                 break;
             case Units::HOURS:
-                $output = ($this->value() - $compare->value()) / MS_PER_HOUR;
+                $output = ($this->value() - $compare->value()) / Utils::MS_PER_HOUR;
                 break;
             case Units::DAYS:
-                $output = ($this->value() - $compare->value() - $zoneDelta) / MS_PER_DAY;
+                $output = ($this->value() - $compare->value() - $zoneDelta) / Utils::MS_PER_DAY;
                 break;
             case Units::WEEKS:
-                $output = ($this->value() - $compare->value() - $zoneDelta) / MS_PER_WEEK;
+                $output = ($this->value() - $compare->value() - $zoneDelta) / Utils::MS_PER_WEEK;
                 break;
             default:
                 $output = $this->value() - $compare->value();

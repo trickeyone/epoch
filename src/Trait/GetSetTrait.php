@@ -12,8 +12,6 @@ use Epoch\Utils;
 use function abs;
 use function ceil;
 
-use const Epoch\MS_PER_SECOND;
-
 /** @internal */
 trait GetSetTrait
 {
@@ -197,7 +195,7 @@ trait GetSetTrait
     public function setMilliseconds(int|string $value): Epoch
     {
         $value = Utils::boundValue($value, 0, 999);
-        $this->setMicroseconds($value * MS_PER_SECOND);
+        $this->setMicroseconds($value * Utils::MS_PER_SECOND);
 
         return $this;
     }
@@ -229,6 +227,6 @@ trait GetSetTrait
      */
     public function value(): int
     {
-        return (int)($this->timestamp(true) * MS_PER_SECOND);
+        return (int)($this->timestamp(true) * Utils::MS_PER_SECOND);
     }
 }

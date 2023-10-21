@@ -12,6 +12,13 @@ use function min;
 /** @internal */
 final class Utils
 {
+    public const MS_PER_SECOND = 1000;
+    public const MU_PER_SECOND = self::MS_PER_SECOND * self::MS_PER_SECOND;
+    public const MS_PER_MINUTE = 60 * self::MS_PER_SECOND;
+    public const MS_PER_HOUR = 60 * self::MS_PER_MINUTE;
+    public const MS_PER_DAY = 24 * self::MS_PER_HOUR;
+    public const MS_PER_WEEK = 7 * self::MS_PER_DAY;
+
     public static function isLeapYear(int $year): bool
     {
         return ($year % 4 === 0 && $year % 100 !== 0) || $year % 400 === 0;

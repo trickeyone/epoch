@@ -12,11 +12,6 @@ use Epoch\Utils;
 use function round;
 use function sprintf;
 
-use const Epoch\MS_PER_HOUR;
-use const Epoch\MS_PER_MINUTE;
-use const Epoch\MS_PER_SECOND;
-use const Epoch\MU_PER_SECOND;
-
 /** @internal */
 trait StartEndOfTrait
 {
@@ -45,25 +40,25 @@ trait StartEndOfTrait
                 break;
             case Units::HOURS:
                 $time -= Utils::mod(
-                    $time + $this->utcOffset() * MS_PER_MINUTE,
-                    MS_PER_HOUR
+                    $time + $this->utcOffset() * Utils::MS_PER_MINUTE,
+                    Utils::MS_PER_HOUR
                 );
                 break;
             case Units::MINUTES:
-                $time -= Utils::mod($time, MS_PER_MINUTE);
+                $time -= Utils::mod($time, Utils::MS_PER_MINUTE);
                 break;
             case Units::SECONDS:
-                $time -= Utils::mod($time, MS_PER_SECOND);
+                $time -= Utils::mod($time, Utils::MS_PER_SECOND);
                 break;
             default:
         }
-        $time = $time / MS_PER_SECOND;
+        $time = $time / Utils::MS_PER_SECOND;
         $this->date->setTimestamp((int)$time);
         $this->date->setTime(
             $this->hours(),
             $this->minutes(),
             $this->seconds(),
-            (int)round(($time - (int)$time) * MU_PER_SECOND)
+            (int)round(($time - (int)$time) * Utils::MU_PER_SECOND)
         );
 
         return $this;
@@ -97,26 +92,26 @@ trait StartEndOfTrait
                 $time = self::startOfDate($this->year(), $this->month(), $this->day() + 1) - 1;
                 break;
             case Units::HOURS:
-                $time += MS_PER_HOUR - Utils::mod(
-                        $time + $this->utcOffset() * MS_PER_MINUTE,
-                        MS_PER_HOUR
+                $time += Utils::MS_PER_HOUR - Utils::mod(
+                        $time + $this->utcOffset() * Utils::MS_PER_MINUTE,
+                        Utils::MS_PER_HOUR
                     ) - 1;
                 break;
             case Units::MINUTES:
-                $time += MS_PER_MINUTE - Utils::mod($time, MS_PER_MINUTE) - 1;
+                $time += Utils::MS_PER_MINUTE - Utils::mod($time, Utils::MS_PER_MINUTE) - 1;
                 break;
             case Units::SECONDS:
-                $time += MS_PER_SECOND - Utils::mod($time, MS_PER_SECOND) - 1;
+                $time += Utils::MS_PER_SECOND - Utils::mod($time, Utils::MS_PER_SECOND) - 1;
                 break;
             default:
         }
-        $time = $time / MS_PER_SECOND;
+        $time = $time / Utils::MS_PER_SECOND;
         $this->date->setTimestamp((int)$time);
         $this->date->setTime(
             $this->hours(),
             $this->minutes(),
             $this->seconds(),
-            (int)round(($time - (int)$time) * MU_PER_SECOND)
+            (int)round(($time - (int)$time) * Utils::MU_PER_SECOND)
         );
 
         return $this;
@@ -142,7 +137,7 @@ trait StartEndOfTrait
             $day += -(Utils::daysInMonths($year, $month));
         }
 
-        return MS_PER_SECOND *
+        return Utils::MS_PER_SECOND *
             (new DateTime(sprintf('%s-%02d-%02dT00:00:00', $year, $month, $day), $this->timezone()))->getTimestamp();
     }
 }

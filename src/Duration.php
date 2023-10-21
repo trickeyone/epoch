@@ -57,18 +57,18 @@ final class Duration
             $seconds += $minutes * 60;
             $milliseconds += $seconds * 1000;
 
-            $this->years = (int)floor($milliseconds / (MS_PER_DAY * 30 * 12));
-            $milliseconds -= $this->years * (MS_PER_DAY * 30 * 12);
-            $this->months = (int)floor($milliseconds / (MS_PER_DAY * 30));
-            $milliseconds -= $this->months * (MS_PER_DAY * 30);
-            $this->days = (int)floor($milliseconds / MS_PER_DAY);
-            $milliseconds -= $this->days * MS_PER_DAY;
-            $this->hours = (int)floor($milliseconds / MS_PER_HOUR);
-            $milliseconds -= $this->hours * MS_PER_HOUR;
-            $this->minutes = (int)floor($milliseconds / MS_PER_MINUTE);
-            $milliseconds -= $this->minutes * MS_PER_MINUTE;
-            $this->seconds = (int)floor($milliseconds / MS_PER_SECOND);
-            $milliseconds -= $this->seconds * MS_PER_SECOND;
+            $this->years = (int)floor($milliseconds / (Utils::MS_PER_DAY * 30 * 12));
+            $milliseconds -= $this->years * (Utils::MS_PER_DAY * 30 * 12);
+            $this->months = (int)floor($milliseconds / (Utils::MS_PER_DAY * 30));
+            $milliseconds -= $this->months * (Utils::MS_PER_DAY * 30);
+            $this->days = (int)floor($milliseconds / Utils::MS_PER_DAY);
+            $milliseconds -= $this->days * Utils::MS_PER_DAY;
+            $this->hours = (int)floor($milliseconds / Utils::MS_PER_HOUR);
+            $milliseconds -= $this->hours * Utils::MS_PER_HOUR;
+            $this->minutes = (int)floor($milliseconds / Utils::MS_PER_MINUTE);
+            $milliseconds -= $this->minutes * Utils::MS_PER_MINUTE;
+            $this->seconds = (int)floor($milliseconds / Utils::MS_PER_SECOND);
+            $milliseconds -= $this->seconds * Utils::MS_PER_SECOND;
             $this->milliseconds = $milliseconds;
         } elseif ($amount instanceof DateInterval) {
             $this->milliseconds = $amount->f;
@@ -90,7 +90,7 @@ final class Duration
         $di->h = $this->hours;
         $di->i = $this->minutes;
         $di->s = $this->seconds;
-        $di->f = $this->milliseconds / MS_PER_SECOND;
+        $di->f = $this->milliseconds / Utils::MS_PER_SECOND;
 
         return $di;
     }
