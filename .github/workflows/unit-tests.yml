@@ -43,6 +43,9 @@ jobs:
           path: /tmp/composer-cache
           key: ${{ runner.os }}-{{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
 
+      - name: Setup Code Climate
+        uses: remarkablemark/setup-codeclimate@v2
+
       - name: Setup PHP
         uses: php-actions/composer@v6
         with:
@@ -51,9 +54,10 @@ jobs:
           php_extensions: "${{ env.extensions }}"
 
       - name: CodeClimate Before Build
-        uses: xylabs/action-code-climate-test-reporter@v1.0.0
-        with:
-          subcommand: "before-build"
+        if: ${{ github.event_name == 'push' }}
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: cc-test-reporter before-build
 
       - name: Run Tests
         uses: php-actions/phpunit@v3
@@ -70,9 +74,10 @@ jobs:
 
       - name: CodeClimate After Build
         if: ${{ github.event_name == 'push' }}
-        uses: xylabs/action-code-climate-test-reporter@v1.0.0
-        with:
-          subcommand: "after-build -t clover"
+        env:
+          COVERAGE_FILE: clover.xml
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: cc-test-reporter after-build -t clover
 
       - name: Make code coverage badge
         if: ${{ github.event_name == 'push' }}
