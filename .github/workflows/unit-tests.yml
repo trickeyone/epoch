@@ -20,13 +20,13 @@ jobs:
     strategy:
       matrix:
         include:
-#          - php: '7.4'
-#            phpunit: '9.6'
-#            phpunit_config: 'phpunit-9.xml'
           - php: '8.0'
             phpunit: '9.6'
             phpunit_config: 'phpunit-9.xml'
           - php: '8.1'
+            phpunit: 'latest'
+            phpunit_config: 'phpunit.xml'
+          - php: '8.2'
             phpunit: 'latest'
             phpunit_config: 'phpunit.xml'
       fail-fast: false
@@ -63,7 +63,7 @@ jobs:
           memory_limit: 256M
           configuration: "${{ matrix.phpunit_config }}"
           version: "${{ matrix.phpunit }}"
-          coverage_clover: "coverage/clover.xml"
+          coverage_clover: "clover.xml"
           coverage_text: true
           php_version: "${{ matrix.php }}"
           php_extensions: "${{ env.extensions }}"
@@ -78,7 +78,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: timkrase/phpunit-coverage-badge@v1.2.1
         with:
-          report: coverage/clover.xml
+          report: clover.xml
           coverage_badge_path: output/coverage.svg
           push_badge: false
 
