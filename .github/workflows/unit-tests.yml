@@ -78,7 +78,7 @@ jobs:
 
       - name: Fix file paths in clover.xml
         shell: bash
-        run: sed -i 's#/app/src#$COVERAGE_WORKING_DIR#g' clover.xml
+        run: sed -i 's#/app/src#${{ env.COVERAGE_WORKING_DIR }}#g' clover.xml
 
       - name: CodeClimate After Build
         if: ${{ github.event_name == 'push' }}
