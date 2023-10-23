@@ -75,7 +75,7 @@ jobs:
       - name: Fix file paths in clover.xml
         shell: bash
         run: |
-          sed -i 's#/app#$PWD#g' clover.xml
+          sed -i 's#/app#"$PWD"#g' clover.xml
           cat clover.xml
 
       - name: CodeClimate After Build
