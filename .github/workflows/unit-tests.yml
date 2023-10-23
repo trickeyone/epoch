@@ -46,6 +46,10 @@ jobs:
       - name: Setup Code Climate
         uses: remarkablemark/setup-codeclimate@v2
 
+      - name: Set current working directory
+        run: |
+          echo "COVERAGE_WORKING_DIR=$(pwd)" >> "$GITHUB_ENV"
+
       - name: Setup PHP
         uses: php-actions/composer@v6
         with:
@@ -74,7 +78,7 @@ jobs:
 
       - name: Fix file paths in clover.xml
         shell: bash
-        run: sed -i 's/\/app\/src/${{ env.GITHUB_WORKSPACE }}/g' clover.xml
+        run: sed -i 's#/app/src#$COVERAGE_WORKING_DIR#g' clover.xml
 
       - name: CodeClimate After Build
         if: ${{ github.event_name == 'push' }}
