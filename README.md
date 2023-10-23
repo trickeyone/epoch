@@ -6,6 +6,8 @@ Epoch
 [![Test Coverage](https://codeclimate.com/github/trickeyone/epoch/badges/coverage.svg)](https://codeclimate.com/github/trickeyone/epoch/coverage)
 [![Code Climate](https://codeclimate.com/github/trickeyone/epoch/badges/gpa.svg)](https://codeclimate.com/github/trickeyone/epoch)
 
+## Usage
+* [Creation](docs/creation.md)
 
 Requirements
 -----------

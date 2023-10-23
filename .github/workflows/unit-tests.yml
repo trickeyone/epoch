@@ -45,6 +45,7 @@ jobs:
 
       - name: Setup Code Climate
         uses: remarkablemark/setup-codeclimate@v2
+        if: ${{ github.event_name == 'push' && matrix.php == '8.2' }}
 
       - name: Setup PHP
         uses: php-actions/composer@v6
@@ -54,7 +55,7 @@ jobs:
           php_extensions: "${{ env.extensions }}"
 
       - name: CodeClimate Before Build
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && matrix.php == '8.2' }}
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: cc-test-reporter before-build
@@ -76,29 +77,23 @@ jobs:
         shell: bash
         run: |
           sed -i 's#/app#'"$PWD"'#g' clover.xml
-          cat clover.xml
 
       - name: CodeClimate After Build
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && matrix.php == '8.2' }}
         env:
           COVERAGE_FILE: clover.xml
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: cc-test-reporter after-build -t clover
 
       - name: Make code coverage badge
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && matrix.php == '8.2' }}
         uses: timkrase/phpunit-coverage-badge@v1.2.1
         with:
           coverage_badge_path: output/coverage.svg
           push_badge: false
 
-      - name: check badge is created
-        run: |
-          ls -al
-          ls -al ./output/
-
       - name: Push code coverage badge
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && matrix.php == '8.2' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: ./output
