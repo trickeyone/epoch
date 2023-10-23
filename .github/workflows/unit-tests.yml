@@ -89,9 +89,13 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: timkrase/phpunit-coverage-badge@v1.2.1
         with:
-          report: clover.xml
           coverage_badge_path: output/coverage.svg
           push_badge: false
+
+      - name: check badge is created
+        run: |
+          ls -al
+          ls -al ./output/
 
       - name: Push code coverage badge
         if: ${{ github.event_name == 'push' }}
