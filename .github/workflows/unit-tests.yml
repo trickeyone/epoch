@@ -77,7 +77,7 @@ jobs:
         with:
           file: clover.xml
           old-string: "/app/src"
-          new-string: "${{ GITHUB_WORKSPACE }}"
+          new-string: "${{ env.GITHUB_WORKSPACE }}"
 
       - name: CodeClimate After Build
         if: ${{ github.event_name == 'push' }}
