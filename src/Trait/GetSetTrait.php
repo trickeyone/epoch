@@ -70,8 +70,7 @@ trait GetSetTrait
      */
     public function setMonth(int|string $value): Epoch
     {
-        $value = Utils::boundValue($value, 1, 12);
-        $this->date->setDate($this->year(), $value, $this->day());
+        $this->date->setDate($this->year(), (int)$value, $this->day());
 
         return $this;
     }
@@ -101,8 +100,7 @@ trait GetSetTrait
 
     public function setDay(int|string $value): Epoch
     {
-        $value = Utils::boundValue($value, 1, Utils::daysInMonths($this->year(), $this->month()));
-        $this->date->setDate($this->year(), $this->month(), $value);
+        $this->date->setDate($this->year(), $this->month(), (int)$value);
 
         return $this;
     }
