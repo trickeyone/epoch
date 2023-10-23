@@ -73,11 +73,8 @@ jobs:
           php_extensions: "${{ env.extensions }}"
 
       - name: Fix file paths in clover.xml
-        uses: MathieuSoysal/replace-string-in-file@v1.0.0
-        with:
-          file: clover.xml
-          old-string: "/app/src"
-          new-string: "${{ env.GITHUB_WORKSPACE }}"
+        shell: bash
+        run: sed -i 's/\/app\/src/${{ env.GITHUB_WORKSPACE }}/g' clover.xml
 
       - name: CodeClimate After Build
         if: ${{ github.event_name == 'push' }}
