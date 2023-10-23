@@ -121,7 +121,7 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(1980, 12, 31, 23, 59, 59, 999), Units::YEARS),
             'end of year far before'
         );
-        self::assertFalse($e->isAfter($e, Units::YEARS), 'same moments are not after the same year');
+        self::assertFalse($e->isAfter($e, Units::YEARS), 'same epochs are not after the same year');
     }
 
     public function testIsAfterMonth(): void
@@ -168,7 +168,7 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(2010, 12, 31, 23, 59, 59, 999), Units::MONTHS),
             'later month but earlier year'
         );
-        self::assertFalse($e->isAfter($e, Units::MONTHS), 'same moments are not after the same month');
+        self::assertFalse($e->isAfter($e, Units::MONTHS), 'same epochs are not after the same month');
     }
 
     public function testIsAfterDay(): void
@@ -223,7 +223,7 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(2010, 4, 10, 0, 0, 0, 0), Units::DAYS),
             'later day but earlier year'
         );
-        self::assertFalse($e->isAfter($e, Units::DAYS), 'same moments are not after the same day');
+        self::assertFalse($e->isAfter($e, Units::DAYS), 'same epochs are not after the same day');
     }
 
     public function testIsAfterHour(): void
@@ -282,7 +282,7 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(2011, 4, 2, 2, 59, 59, 999), Units::HOURS),
             'end of previous hour'
         );
-        self::assertFalse($e->isAfter($e, Units::HOURS), 'same moments are not after the same day');
+        self::assertFalse($e->isAfter($e, Units::HOURS), 'same epochs are not after the same day');
     }
 
     public function testIsAfterMinute(): void
@@ -349,7 +349,7 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(2011, 4, 2, 3, 3, 59, 999), Units::MINUTES),
             'end of previous minute'
         );
-        self::assertFalse($e->isAfter($e, Units::MINUTES), 'same moments are not after the same day');
+        self::assertFalse($e->isAfter($e, Units::MINUTES), 'same epochs are not after the same day');
     }
 
     public function testIsAfterSecond(): void
@@ -424,7 +424,7 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(2011, 4, 2, 3, 4, 4, 999), Units::SECONDS),
             'end of previous second'
         );
-        self::assertFalse($e->isAfter($e, Units::SECONDS), 'same moments are not after the same day');
+        self::assertFalse($e->isAfter($e, Units::SECONDS), 'same epochs are not after the same day');
     }
 
     public function testIsAfterMillisecond(): void
@@ -491,6 +491,6 @@ class IsAfterTest extends TestCase
             $e->isAfter(Epoch::from(2011, 4, 2, 3, 4, 5, 9), Units::MILLISECONDS),
             'millisecond is earlier'
         );
-        self::assertFalse($e->isAfter($e, Units::MILLISECONDS), 'same moments are not after the same day');
+        self::assertFalse($e->isAfter($e, Units::MILLISECONDS), 'same epochs are not after the same day');
     }
 }

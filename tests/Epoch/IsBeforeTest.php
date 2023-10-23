@@ -53,7 +53,7 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(1980, 12, 31, 23, 59, 59, 999), $units),
             'end of year far before'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 
     public function testIsBeforeMonth(): void
@@ -101,7 +101,7 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(2010, 12, 31, 23, 59, 59, 999), $units),
             'later month but earlier year'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 
     public function testIsBeforeDay(): void
@@ -157,7 +157,7 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(2010, 4, 10, 0, 0, 0, 0), $units),
             'later day but earlier year'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 
     public function testIsBeforeHour(): void
@@ -221,7 +221,7 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(2010, 4, 2, 3, 0, 0, 0), $units),
             'later hour but earlier year'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 
     public function testIsBeforeMinutes(): void
@@ -293,7 +293,7 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(2010, 4, 2, 3, 10, 59, 999), $units),
             'later minute but earlier year'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 
     public function testIsBeforeSecond(): void
@@ -373,7 +373,7 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(2010, 4, 2, 3, 4, 59, 999), $units),
             'later second but earlier year'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 
     public function testIsBeforeMillisecond(): void
@@ -441,6 +441,6 @@ class IsBeforeTest extends TestCase
             $e->isBefore(Epoch::from(2011, 4, 2, 3, 4, 4, 5), $units),
             'millisecond is earlier'
         );
-        self::assertFalse($e->isBefore($e, $units), 'same moments are not before the same year');
+        self::assertFalse($e->isBefore($e, $units), 'same epochs are not before the same year');
     }
 }

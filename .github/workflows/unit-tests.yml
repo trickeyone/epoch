@@ -59,6 +59,11 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: cc-test-reporter before-build
 
+      - name: Get CWD
+        run: |
+          pwd
+          ls -al
+
       - name: Run Tests
         uses: php-actions/phpunit@v3
         env:
