@@ -3,13 +3,13 @@ Get + Set
 
 All setter methods are fluent.
 ```php
-\Epoch\Epoch::create()->setMinutes(integer)->minutes(); // returns the value passed to setMinutes()
+\Epoch\Epoch::setMinutes(int)->minutes(); // returns the value passed to setMinutes()
 ```
 
 ## Microseconds
 ```php
-\Epoch\Epoch::create()->microseconds(); // integer
-\Epoch\Epoch::create()->setMicroseconds(integer);
+\Epoch\Epoch::microseconds(): int;
+\Epoch\Epoch::setMicroseconds(int): \Epoch\Epoch;
 ```
 
 Get or set the milliseconds.
@@ -18,8 +18,8 @@ Accepts an integer from 0 to 999999. If the range is exceeded, it is limited to 
 
 ## Milliseconds
 ```php
-\Epoch\Epoch::create()->milliseconds(); // integer
-\Epoch\Epoch::create()->setMilliseconds(integer);
+\Epoch\Epoch::milliseconds(): int;
+\Epoch\Epoch::setMilliseconds(int): \Epoch\Epoch;
 ```
 
 Get or set the milliseconds.
@@ -28,8 +28,8 @@ Accepts an integer from 0 to 999. If the range is exceeded, it is limited to the
 
 ## Seconds
 ```php
-\Epoch\Epoch::create()->seconds(); // integer
-\Epoch\Epoch::create()->setSeconds(integer);
+\Epoch\Epoch::seconds(): int;
+\Epoch\Epoch::setSeconds(int): \Epoch\Epoch;
 ```
 
 Get or set the seconds.
@@ -38,8 +38,8 @@ Accepts an integer from 0 to 59. If the range is exceeded, it is limited to the 
 
 ## Minutes
 ```php
-\Epoch\Epoch::create()->minutes(); // integer
-\Epoch\Epoch::create()->setMinutes(integer);
+\Epoch\Epoch::minutes(): int;
+\Epoch\Epoch::setMinutes(int): \Epoch\Epoch;
 ```
 
 Get or set the minutes.
@@ -48,8 +48,8 @@ Accepts an integer from 0 to 59. If the range is exceeded, it is limited to the 
 
 ## Hours
 ```php
-\Epoch\Epoch::create()->hours(); // integer
-\Epoch\Epoch::create()->setHours(integer);
+\Epoch\Epoch::hours(): int;
+\Epoch\Epoch::setHours(int): \Epoch\Epoch;
 ```
 
 Get or set the hours;
@@ -58,8 +58,8 @@ Accepts an integer from 0 to 23. If the range is exceeded, it is limited to the 
 
 ## Day of the Month
 ```php
-\Epoch\Epoch::create()->day(); // integer
-\Epoch\Epoch::create()->setDay(integer);
+\Epoch\Epoch::day(): int;
+\Epoch\Epoch::setDay(int): \Epoch\Epoch;
 ```
 
 Get or set the day of the month.
@@ -73,8 +73,8 @@ next month (see [month](#month) for more details).
 
 ## Day of the Week
 ```php
-\Epoch\Epoch::create()->weekday(); // integer
-\Epoch\Epoch::create()->setWeekday(integer);
+\Epoch\Epoch::weekday(): int;
+\Epoch\Epoch::setWeekday(int): \Epoch\Epoch;
 ```
 
 Get or set the day of the week.
@@ -93,32 +93,32 @@ If the value exceeds the range, it will bubble to another week.
 
 ## ISO Day of the Week
 ```php
-\Epoch\Epoch::create()->isoWeekday(); // integer
-\Epoch\Epoch::create()->setIsoWeekday(integer);
+\Epoch\Epoch::isoWeekday(): int;
+\Epoch\Epoch::setIsoWeekday(int): \Epoch\Epoch;
 ```
 
 Get or set the [ISO day of the week](https://en.wikipedia.org/wiki/ISO_week_date) with 1 being Monday and 7 being Sunday.
 
-As with [Day of Week](#day-of-week), if the value exceeds the range, it will bubble to another week.
+As with [Day of Week](#day-of-the-week), if the value exceeds the range, it will bubble to another week.
 
 ## Day of the Year
 ```php
-\Epoch\Epoch::create()->dayOfYear(); // integer
+\Epoch\Epoch::dayOfYear(): int;
 ```
 
 Gets the day of the year (1-366).
 
 ## Week of the Year
 ```php
-\Epoch\Epoch::create()->weekOfYear(); // integer
+\Epoch\Epoch::weekOfYear(): int;
 ```
 
 Gets the [ISO week of the year](https://en.wikipedia.org/wiki/ISO_week_date).
 
 ## Month
 ```php
-\Epoch\Epoch::create()->month(); // integer
-\Epoch\Epoch::create()->setMonth(integer);
+\Epoch\Epoch::month(): int;
+\Epoch\Epoch::setMonth(int): \Epoch\Epoch;
 ```
 
 Get or set the month.
@@ -130,8 +130,8 @@ the month, it will bubble to the next month.
 
 ## Quarter
 ```php
-\Epoch\Epoch::create()->quarter(); // integer
-\Epoch\Epoch::create()->setQuarter(integer);
+\Epoch\Epoch::quarter(): int;
+\Epoch\Epoch::setQuarter(int): \Epoch\Epoch;
 ```
 
 Get or set the quarter (1 to 4).
@@ -146,10 +146,51 @@ i.e.
 
 ## Year
 ```php
-\Epoch\Epoch::create()->year(); // integer
-\Epoch\Epoch::create()->setYear(integer);
+\Epoch\Epoch::year(): int;
+\Epoch\Epoch::setYear(int): \Epoch\Epoch;
 ```
 
 Get or set the year.
 
 Accepts integers from `-PHP_INT_MAX` to `PHP_INT_MAX`
+
+Example: `-0055, 0787, 1999, 2003, 10191`
+
+## UTC Offset
+```php
+\Epoch\Epoch::utcOffset(): int;
+```
+
+Get the UTC offset in seconds. `-43200` through `50400`
+
+```php
+\Epoch\Epoch::fromString('2012-03-31T15:00:00-00:00')->utcOffset(); // 0
+\Epoch\Epoch::fromString('2012-03-31T15:00:00-07:00')->utcOffset(); // -25200
+\Epoch\Epoch::fromString('2012-03-31T15:00:00+03:00')->utcOffset(); // 10800
+```
+
+## Timezone
+```php
+\Epoch\Epoch::timezone(): DateTimeZone
+\Epoch\Epoch::setTimezone(DateTimeZone $timeZone): \Epoch\Epoch
+```
+
+Get or set the timezone.
+
+## Timezone Abbreviation
+```php
+\Epoch\Epoch::timezoneAbbr(): string
+```
+
+Get the current timezone abbreviation, if known, otherwise the GMT offset.
+
+Example: `EST, MDT, +05`
+
+## Timezone Name
+```php
+\Epoch\Epoch::timezoneName(): string
+```
+
+Get the current timezone identifier.
+
+Example: `UTC, GMT, Atlantic/Azores`

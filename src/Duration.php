@@ -21,7 +21,15 @@ final class Duration
 
     public function __construct(int|float|DateInterval $amount = null, string $units = null)
     {
-        if (null !== $amount && null !== $units) {
+        if ($amount instanceof DateInterval) {
+            $this->milliseconds = $amount->f;
+            $this->seconds = $amount->s;
+            $this->minutes = $amount->i;
+            $this->hours = $amount->h;
+            $this->days = $amount->d;
+            $this->months = $amount->m;
+            $this->years = $amount->y;
+        } elseif (null !== $amount && null !== $units) {
             $years = 0;
             $quarters = 0;
             $months = 0;
@@ -70,14 +78,6 @@ final class Duration
             $this->seconds = (int)floor($milliseconds / Utils::MS_PER_SECOND);
             $milliseconds -= $this->seconds * Utils::MS_PER_SECOND;
             $this->milliseconds = $milliseconds;
-        } elseif ($amount instanceof DateInterval) {
-            $this->milliseconds = $amount->f;
-            $this->seconds = $amount->s;
-            $this->minutes = $amount->i;
-            $this->hours = $amount->h;
-            $this->days = $amount->d;
-            $this->months = $amount->m;
-            $this->years = $amount->y;
         }
     }
 

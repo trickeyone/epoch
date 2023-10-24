@@ -5,7 +5,7 @@ Create a new instance from a string and the provided date-time format. The date-
 required to properly parse the date-time string.
 
 ```php
-\Epoch\Epoch::fromString(string $dateString, string $format = \DateTimeInterface::ATOM, ?\DateTimeZone $timeZone): \Epoch\Epoch
+\Epoch\Epoch::fromString(string $dateString, string $format = DateTimeInterface::ATOM, ?DateTimeZone $timeZone): \Epoch\Epoch
 ```
 
 | Parameter     |                                                                                                                                                                                                                                                                                  |

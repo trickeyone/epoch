@@ -7,28 +7,28 @@ All creation methods that accept a `DateTimeZone` parameter, default to the syst
 ## Now
 Create a fresh instance for "now". Optionally pass a `DateTimeZone` to set for the newly created instance.
 ```php
-\Epoch\Epoch::create(?\DateTimeZone $timeZone): Epoch
+\Epoch\Epoch::create(?DateTimeZone $timeZone): \Epoch\Epoch
 ```
 ```php
-$epoch = \Epoch\Epoch::create(); // Create an instance for the current date/time (aka "now")
+\Epoch\Epoch::create(); // Create an instance for the current date/time (aka "now")
 ```
 
 ## `DateTimeInterface`
 Create from `DateTimeInterface` object.
 The passed object is treated as immutable and a new instance is created internally.
 ```php
-\Epoch\Epoch::fromDateTimeInterface(\DateTimeInterface $dateTime): \Epoch\Epoch
+\Epoch\Epoch::fromDateTimeInterface(DateTimeInterface $dateTime): \Epoch\Epoch
 ```
 ```php
 $myDate = new DateTime('2023-03-31T13:24:56Z');
-$epoch = \Epoch\Epoch::fromDateTimeInterface($myDate);
+\Epoch\Epoch::fromDateTimeInterface($myDate);
 ```
 
 ## [Strings](02-string-format.md)
 Create from string and date-time format.
 ```php
-$epoch = \Epoch\Epoch::fromString('2023-03-31T13:24:56Z'); // Create from default ATOM date-time format
-$epoch = \Epoch\Epoch::fromString('March 31, 2023', 'F j, Y'); // Create from provided date-time format
+\Epoch\Epoch::fromString('2023-03-31T13:24:56Z'); // ATOM date-time format
+\Epoch\Epoch::fromString('March 31, 2023', 'F j, Y'); // provided date-time format
 ```
 
 ## Unix Timestamp
@@ -37,16 +37,14 @@ Create from Unix timestamp.
 \Epoch\Epoch::fromTimestamp(int $timestamp, ?DateTimeZone $timeZone): \Epoch\Epoch
 ```
 ```php
-$epoch = \Epoch\Epoch::fromTimestamp(1680269096);
+\Epoch\Epoch::fromTimestamp(1680269096);
 ```
 
 ## [Specific Values](03-specific-values.md)
 Create from specific values (i.e. year, month, day, hour, etc.).
 ```php
-$epoch = \Epoch\Epoch::from(2023);
-echo (string)$epoch; // Echos "2023-01-01T00:00:00+00:00"
-$epoch = \Epoch\Epoch::from(2023, 3, 31);
-echo (string)$epoch; // Echos "2023-03-31T00:00:00+00:00"
+echo (string)\Epoch\Epoch::from(2023); // "2023-01-01T00:00:00+00:00"
+echo (string)\Epoch\Epoch::from(2023, 3, 31); // "2023-03-31T00:00:00+00:00"
 ```
 
 ## Cloning

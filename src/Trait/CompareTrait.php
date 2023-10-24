@@ -40,7 +40,7 @@ trait CompareTrait
 
     public function isBetween(
         null|string|DateTimeInterface|Epoch $from,
-        null|string|DateTimeInterface|Epoch $to,
+        null|string|DateTimeInterface|Epoch $to = null,
         string $units = Units::MILLISECONDS
     ): bool {
         try {
