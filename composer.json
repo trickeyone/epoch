@@ -1,40 +1,45 @@
 {
-  "name": "trickeyone/epoch",
-  "description": "A general-purpose library to parse, validate, manipulate, and format dates",
-  "authors": [
-    {
-      "name": "Josh England",
-      "email": "joshua.en@gmail.com"
-    }
-  ],
-  "keywords": [
-    "date",
-    "time",
-    "parse",
-    "format",
-    "validate",
-    "epoch"
-  ],
-  "license": "MIT",
-  "config": {
-    "sort-packages": true,
-    "process-timeout": 0,
-    "lock": false
-  },
-  "require": {
-    "php": "^8.1"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^10.4"
-  },
-  "autoload": {
-    "psr-4": {
-      "Epoch\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Epoch\\Test\\": "tests/"
-    }
-  }
+    "name": "trickeyone/epoch",
+    "description": "A general-purpose library to parse, validate, manipulate, and format dates",
+    "authors": [
+        {
+            "name": "Josh England",
+            "email": "joshua.en@gmail.com"
+        }
+    ],
+    "keywords": [
+        "date",
+        "time",
+        "parse",
+        "format",
+        "validate",
+        "epoch"
+    ],
+    "license": "MIT",
+    "config": {
+        "sort-packages": true,
+        "process-timeout": 0,
+        "lock": false
+    },
+    "scripts": {
+        "changelog": "conventional-changelog"
+    },
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "marcocesarato/php-conventional-changelog": "^1.17",
+        "phpunit/phpunit": "^10.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Epoch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Epoch\\Test\\": "tests/"
+        }
+    },
+    "version": "1.1.0"
 }
