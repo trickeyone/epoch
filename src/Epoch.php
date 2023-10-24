@@ -178,6 +178,8 @@ final class Epoch implements Stringable
             $date = self::fromTimestamp($date, $timeZone);
         } elseif ($date instanceof DateTimeInterface) {
             $date = self::fromDateTimeInterface($date);
+        } elseif ($date === null) {
+            $date = self::create();
         }
 
         return clone $date;

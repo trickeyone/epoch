@@ -21,6 +21,7 @@ class IsAfterTest extends TestCase
         $e = Epoch::from(2011, 4, 2, 3, 4, 5, 10);
         $c = Epoch::create($e);
 
+        self::assertFalse($e->isAfter(null), 'allows for null');
         self::assertFalse(
             $e->isAfter(Epoch::from(2012, 4, 2, 3, 5, 5, 10)),
             'year is later'

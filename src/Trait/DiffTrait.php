@@ -16,7 +16,7 @@ use function round;
 trait DiffTrait
 {
     public function diff(
-        int|string|DateTimeInterface|Epoch $input,
+        null|int|string|DateTimeInterface|Epoch $input,
         Units $units = Units::MILLISECONDS,
         bool $asFloat = false
     ): int|float {
