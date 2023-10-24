@@ -19,7 +19,7 @@ final class Duration
     private ?int $months = null;
     private ?int $years = null;
 
-    public function __construct(int|float|DateInterval $amount = null, string $units = null)
+    public function __construct(int|float|DateInterval $amount = null, Units $units = null)
     {
         if ($amount instanceof DateInterval) {
             $this->milliseconds = $amount->f;

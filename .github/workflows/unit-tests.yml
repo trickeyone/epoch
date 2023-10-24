@@ -15,14 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      extensions: amqp apcu gettext igbinary intl mbstring memcached xdebug
+      extensions: xdebug
 
     strategy:
       matrix:
         include:
-          - php: '8.0'
-            phpunit: '9.6'
-            phpunit_config: 'phpunit-9.xml'
           - php: '8.1'
             phpunit: 'latest'
             phpunit_config: 'phpunit.xml'

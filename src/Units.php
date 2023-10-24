@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Epoch;
 
-interface Units
+enum Units: string
 {
-    public const YEARS        = 'years';
-    public const MONTHS       = 'months';
-    public const DAYS         = 'days';
-    public const HOURS        = 'hours';
-    public const MINUTES      = 'minutes';
-    public const SECONDS      = 'seconds';
-    public const MILLISECONDS = 'milliseconds';
-    public const WEEKS        = 'weeks';
-    public const QUARTERS     = 'quarters';
+    case YEARS        = 'years';
+    case MONTHS       = 'months';
+    case DAYS         = 'days';
+    case HOURS        = 'hours';
+    case MINUTES      = 'minutes';
+    case SECONDS      = 'seconds';
+    case MILLISECONDS = 'milliseconds';
+    case WEEKS        = 'weeks';
+    case QUARTERS     = 'quarters';
 }

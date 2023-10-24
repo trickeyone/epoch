@@ -38,10 +38,9 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::FULL_YEAR);
     }
 
-    public function setYear(int|string $value): Epoch
+    public function setYear(int $value): Epoch
     {
         $day = $this->day();
-        $value = (int)$value;
         if (
             $this->isLeapYear() &&
             $this->month() === 2 &&
@@ -65,12 +64,12 @@ trait GetSetTrait
     }
 
     /**
-     * @param int|string $value Sets the Month (1-12)
+     * @param int $value Sets the Month (1-12)
      * @return Epoch
      */
-    public function setMonth(int|string $value): Epoch
+    public function setMonth(int $value): Epoch
     {
-        $this->date->setDate($this->year(), (int)$value, $this->day());
+        $this->date->setDate($this->year(), $value, $this->day());
 
         return $this;
     }
@@ -98,9 +97,9 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::DAY);
     }
 
-    public function setDay(int|string $value): Epoch
+    public function setDay(int $value): Epoch
     {
-        $this->date->setDate($this->year(), $this->month(), (int)$value);
+        $this->date->setDate($this->year(), $this->month(), $value);
 
         return $this;
     }
@@ -151,7 +150,7 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::HOURS);
     }
 
-    public function setHours(int|string $value): Epoch
+    public function setHours(int $value): Epoch
     {
         $value = Utils::boundValue($value, 1, 24);
         $this->date->setTime($value, $this->minutes(), $this->seconds(), $this->microseconds());
@@ -164,7 +163,7 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::MINUTES);
     }
 
-    public function setMinutes(int|string $value): Epoch
+    public function setMinutes(int $value): Epoch
     {
         $value = Utils::boundValue($value, 1, 60);
         $this->date->setTime($this->hours(), $value, $this->seconds(), $this->microseconds());
@@ -177,7 +176,7 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::SECONDS);
     }
 
-    public function setSeconds(int|string $value): Epoch
+    public function setSeconds(int $value): Epoch
     {
         $value = Utils::boundValue($value, 1, 60);
         $this->date->setTime($this->hours(), $this->minutes(), $value, $this->microseconds());
@@ -190,7 +189,7 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::MILLISECONDS);
     }
 
-    public function setMilliseconds(int|string $value): Epoch
+    public function setMilliseconds(int $value): Epoch
     {
         $value = Utils::boundValue($value, 0, 999);
         $this->setMicroseconds($value * Utils::MS_PER_SECOND);
@@ -203,7 +202,7 @@ trait GetSetTrait
         return (int)$this->date->format(DateTimeFormats::MICROSECONDS);
     }
 
-    public function setMicroseconds(int|string $value): Epoch
+    public function setMicroseconds(int $value): Epoch
     {
         $value = Utils::boundValue($value, 0, 999999);
         $this->date->setTime($this->hours(), $this->minutes(), $this->seconds(), $value);

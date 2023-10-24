@@ -15,43 +15,27 @@ use function sprintf;
 /** @internal */
 trait StartEndOfTrait
 {
-    public function startOf(string $unit = Units::MILLISECONDS): Epoch
+    public function startOf(Units $units = Units::MILLISECONDS): Epoch
     {
         $time = $this->value();
-        switch ($unit) {
-            case Units::YEARS:
-                $time = self::startOfDate($this->year(), 1, 1);
-                break;
-            case Units::QUARTERS:
-                $time = self::startOfDate(
-                    $this->year(),
-                    ($this->month() - ($this->month() % 3)) + 1,
-                    1
-                );
-                break;
-            case Units::MONTHS:
-                $time = self::startOfDate($this->year(), $this->month(), 1);
-                break;
-            case Units::WEEKS:
-                $time = self::startOfDate($this->year(), $this->month(), $this->day() - $this->weekday());
-                break;
-            case Units::DAYS:
-                $time = self::startOfDate($this->year(), $this->month(), $this->day());
-                break;
-            case Units::HOURS:
-                $time -= Utils::mod(
+        $time = match ($units) {
+            Units::YEARS => self::startOfDate($this->year(), 1, 1),
+            Units::QUARTERS => self::startOfDate(
+                $this->year(),
+                ($this->month() - ($this->month() % 3)) + 1,
+                1
+            ),
+            Units::MONTHS => self::startOfDate($this->year(), $this->month(), 1),
+            Units::WEEKS => self::startOfDate($this->year(), $this->month(), $this->day() - $this->weekday()),
+            Units::DAYS => self::startOfDate($this->year(), $this->month(), $this->day()),
+            Units::HOURS => $time - Utils::mod(
                     $time + $this->utcOffset() * Utils::MS_PER_MINUTE,
                     Utils::MS_PER_HOUR
-                );
-                break;
-            case Units::MINUTES:
-                $time -= Utils::mod($time, Utils::MS_PER_MINUTE);
-                break;
-            case Units::SECONDS:
-                $time -= Utils::mod($time, Utils::MS_PER_SECOND);
-                break;
-            default:
-        }
+                ),
+            Units::MINUTES => $time - Utils::mod($time, Utils::MS_PER_MINUTE),
+            Units::SECONDS => $time - Utils::mod($time, Utils::MS_PER_SECOND),
+            default => $time,
+        };
         $time = $time / Utils::MS_PER_SECOND;
         $this->date->setTimestamp((int)$time);
         $this->date->setTime(
@@ -64,47 +48,31 @@ trait StartEndOfTrait
         return $this;
     }
 
-    public function endOf(string $unit = Units::MILLISECONDS): Epoch
+    public function endOf(Units $units = Units::MILLISECONDS): Epoch
     {
         $time = $this->value();
-        switch ($unit) {
-            case Units::YEARS:
-                $time = self::startOfDate($this->year() + 1, 1, 1) - 1;
-                break;
-            case Units::QUARTERS:
-                $time = self::startOfDate(
+        $time = match ($units) {
+            Units::YEARS => self::startOfDate($this->year() + 1, 1, 1) - 1,
+            Units::QUARTERS => self::startOfDate(
                     $this->year(),
                     (($this->month() - 1) - (($this->month() - 1) % 3)) + 4,
                     1
-                ) - 1;
-                break;
-            case Units::MONTHS:
-                $time = self::startOfDate($this->year(), $this->month() + 1, 1) - 1;
-                break;
-            case Units::WEEKS:
-                $time = self::startOfDate(
+                ) - 1,
+            Units::MONTHS => self::startOfDate($this->year(), $this->month() + 1, 1) - 1,
+            Units::WEEKS => self::startOfDate(
                     $this->year(),
                     $this->month(),
                     $this->day() - $this->weekday() + 7
-                ) - 1;
-                break;
-            case Units::DAYS:
-                $time = self::startOfDate($this->year(), $this->month(), $this->day() + 1) - 1;
-                break;
-            case Units::HOURS:
-                $time += Utils::MS_PER_HOUR - Utils::mod(
-                        $time + $this->utcOffset() * Utils::MS_PER_MINUTE,
-                        Utils::MS_PER_HOUR
-                    ) - 1;
-                break;
-            case Units::MINUTES:
-                $time += Utils::MS_PER_MINUTE - Utils::mod($time, Utils::MS_PER_MINUTE) - 1;
-                break;
-            case Units::SECONDS:
-                $time += Utils::MS_PER_SECOND - Utils::mod($time, Utils::MS_PER_SECOND) - 1;
-                break;
-            default:
-        }
+                ) - 1,
+            Units::DAYS => self::startOfDate($this->year(), $this->month(), $this->day() + 1) - 1,
+            Units::HOURS => $time + Utils::MS_PER_HOUR - Utils::mod(
+                    $time + $this->utcOffset() * Utils::MS_PER_MINUTE,
+                    Utils::MS_PER_HOUR
+                ) - 1,
+            Units::MINUTES => $time + Utils::MS_PER_MINUTE - Utils::mod($time, Utils::MS_PER_MINUTE) - 1,
+            Units::SECONDS => $time + Utils::MS_PER_SECOND - Utils::mod($time, Utils::MS_PER_SECOND) - 1,
+            default => $time,
+        };
         $time = $time / Utils::MS_PER_SECOND;
         $this->date->setTimestamp((int)$time);
         $this->date->setTime(

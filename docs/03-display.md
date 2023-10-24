@@ -22,7 +22,7 @@ print (string)\Epoch\Epoch::from(2012, 5, 13); // 2012-05-13T00:00:00-00:00
 ```php
 \Epoch\Epoch::diff(
   int|string|DateTimeInterface|Epoch $input,
-  string $units = Units::MILLISECONDS,
+  \Epoch\Units $units = Units::MILLISECONDS,
   bool $asFloat = false
 ): int|float;
 ```
@@ -30,7 +30,7 @@ print (string)\Epoch\Epoch::from(2012, 5, 13); // 2012-05-13T00:00:00-00:00
 | Parameter  | Description                                                                                                                                      |
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | `$input`   | The target date to diff the current Epoch date against.<br>An integer, date-string, `DateTimeInterface, or another Epoch instance can be passed. |
-| `$units`   | The unit of time to diff. Defaults to `\Epoch\Units::MILLISECONDS`<br>Type: `\Epoch\Units`                                                       |
+| `$units`   | Optional The unit of time to diff. Defaults to `\Epoch\Units::MILLISECONDS`<br>Type: `\Epoch\Units`                                              |
 | `$asFloat` | By default, the result will be returned as an integer. Passing `true` as the third parameter will return a float.                                |
 
 ```php

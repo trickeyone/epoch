@@ -16,7 +16,7 @@ use function is_int;
 
 trait AddSubtractTrait
 {
-    public function add(DateInterval|int|float $amount, string $units = Units::MILLISECONDS): Epoch
+    public function add(DateInterval|int|float $amount, Units $units = Units::MILLISECONDS): Epoch
     {
         if (is_int($amount) && $amount < 0) {
             return $this->subtract(abs($amount), $units);
@@ -28,7 +28,7 @@ trait AddSubtractTrait
         return $this;
     }
 
-    public function subtract(DateInterval|int|float $amount, string $units = Units::MILLISECONDS): Epoch
+    public function subtract(DateInterval|int|float $amount, Units $units = Units::MILLISECONDS): Epoch
     {
         $duration = new Duration($amount, $units);
         $this->date->sub($duration->toDateInterval());

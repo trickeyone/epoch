@@ -17,7 +17,7 @@ trait DiffTrait
 {
     public function diff(
         int|string|DateTimeInterface|Epoch $input,
-        string $units = Units::MILLISECONDS,
+        Units $units = Units::MILLISECONDS,
         bool $asFloat = false
     ): int|float {
         try {
@@ -27,35 +27,19 @@ trait DiffTrait
         }
 
         $zoneDelta = ($compare->utcOffset() - $this->utcOffset()) * Utils::MS_PER_SECOND;
-        switch ($units) {
-            case Units::YEARS:
-                $output = self::monthDiff($this, $compare) / 12;
-                break;
-            case Units::MONTHS:
-                $output = self::monthDiff($this, $compare);
-                $output = $asFloat ? $output : (int)round($output);
-                break;
-            case Units::QUARTERS:
-                $output = self::monthDiff($this, $compare) / 3;
-                break;
-            case Units::SECONDS:
-                $output = ($this->value() - $compare->value()) / Utils::MS_PER_SECOND;
-                break;
-            case Units::MINUTES:
-                $output = ($this->value() - $compare->value()) / Utils::MS_PER_MINUTE;
-                break;
-            case Units::HOURS:
-                $output = ($this->value() - $compare->value()) / Utils::MS_PER_HOUR;
-                break;
-            case Units::DAYS:
-                $output = ($this->value() - $compare->value() - $zoneDelta) / Utils::MS_PER_DAY;
-                break;
-            case Units::WEEKS:
-                $output = ($this->value() - $compare->value() - $zoneDelta) / Utils::MS_PER_WEEK;
-                break;
-            default:
-                $output = $this->value() - $compare->value();
-        }
+        $output = match ($units) {
+            Units::YEARS => self::monthDiff($this, $compare) / 12,
+            Units::MONTHS => (fn(float $output) => $asFloat
+                ? $output
+                : (int)round($output))(self::monthDiff($this, $compare)),
+            Units::QUARTERS => self::monthDiff($this, $compare) / 3,
+            Units::SECONDS => ($this->value() - $compare->value()) / Utils::MS_PER_SECOND,
+            Units::MINUTES => ($this->value() - $compare->value()) / Utils::MS_PER_MINUTE,
+            Units::HOURS => ($this->value() - $compare->value()) / Utils::MS_PER_HOUR,
+            Units::DAYS => ($this->value() - $compare->value() - $zoneDelta) / Utils::MS_PER_DAY,
+            Units::WEEKS => ($this->value() - $compare->value() - $zoneDelta) / Utils::MS_PER_WEEK,
+            default => $this->value() - $compare->value(),
+        };
 
         return $asFloat ? $output : Utils::absFloor($output);
     }
@@ -79,7 +63,7 @@ trait DiffTrait
         return -($wholeMonthDiff + $adjust) ?: 0;
     }
 
-    public static function cloneForValue(Epoch $source, int $value, string $units): Epoch
+    public static function cloneForValue(Epoch $source, int $value, Units $units): Epoch
     {
         return $value < 0 ? $source->clone()->subtract(abs($value), $units) : $source->clone()->add($value, $units);
     }

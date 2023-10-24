@@ -12,7 +12,7 @@ use Epoch\Units;
 /** @internal */
 trait CompareTrait
 {
-    public function isAfter(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
+    public function isAfter(string|DateTimeInterface|Epoch $input, Units $units = Units::MILLISECONDS): bool
     {
         try {
             $compare = self::createFrom($input);
@@ -25,7 +25,7 @@ trait CompareTrait
             : $this->clone()->startOf($units)->value() > $compare->value();
     }
 
-    public function isBefore(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
+    public function isBefore(string|DateTimeInterface|Epoch $input, Units $units = Units::MILLISECONDS): bool
     {
         try {
             $compare = self::createFrom($input);
@@ -41,7 +41,7 @@ trait CompareTrait
     public function isBetween(
         null|string|DateTimeInterface|Epoch $from,
         null|string|DateTimeInterface|Epoch $to = null,
-        string $units = Units::MILLISECONDS
+        Units $units = Units::MILLISECONDS
     ): bool {
         try {
             $compareFrom = self::createFrom($from);
@@ -53,7 +53,7 @@ trait CompareTrait
         return $this->isAfter($compareFrom, $units) && $this->isBefore($compareTo, $units);
     }
 
-    public function isSame(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
+    public function isSame(string|DateTimeInterface|Epoch $input, Units $units = Units::MILLISECONDS): bool
     {
         try {
             $compare = self::createFrom($input);
@@ -70,12 +70,12 @@ trait CompareTrait
             );
     }
 
-    public function isSameOrAfter(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
+    public function isSameOrAfter(string|DateTimeInterface|Epoch $input, Units $units = Units::MILLISECONDS): bool
     {
         return $this->isSame($input, $units) || $this->isAfter($input, $units);
     }
 
-    public function isSameOrBefore(string|DateTimeInterface|Epoch $input, string $units = Units::MILLISECONDS): bool
+    public function isSameOrBefore(string|DateTimeInterface|Epoch $input, Units $units = Units::MILLISECONDS): bool
     {
         return $this->isSame($input, $units) || $this->isBefore($input, $units);
     }
