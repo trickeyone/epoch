@@ -16,6 +16,7 @@
         "epoch"
     ],
     "license": "MIT",
+    "version": "1.1.1",
     "config": {
         "sort-packages": true,
         "process-timeout": 0,
@@ -40,6 +41,5 @@
         "psr-4": {
             "Epoch\\Test\\": "tests/"
         }
-    },
-    "version": "1.1.0"
+    }
 }

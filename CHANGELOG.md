@@ -1,7 +1,17 @@
 <!--- BEGIN HEADER -->
 # Changelog
 
+All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
+
+## [1.1.1](https://github.com/trickeyone/epoch/compare/v1.1.0...v1.1.1) (2023-10-24)
+
+### Features
+
+* Support passing `null` to the various comparison methods and `diff`, which will use "now" ([d30bba](https://github.com/trickeyone/epoch/commit/d30bba7d8e918627f75fbaa4dc114b51cd97184b))
+
+
+---
 
 ## [1.1.0](https://github.com/trickeyone/epoch/compare/v1.0.0...v1.1.0) (2023-10-24)
 
